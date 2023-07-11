@@ -1,7 +1,9 @@
 from torch import nn
 
+from layers.activation import ActivationLayer
 
-class PytorchRelu:
+
+class PytorchRelu(ActivationLayer):
 
     def __init__(self):
         self.layer = self.__create_layer()
