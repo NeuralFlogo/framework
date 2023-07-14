@@ -6,6 +6,7 @@ class Kernel:
     def get(self):
         return self.x, self.y
 
+# TODO simplificar channels in y out (secundario si se puede)
 
 class ConvolutionalLayer:
     def __init__(self, in_channels: int, out_channels: int, kernel, stride, padding):

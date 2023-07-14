@@ -1,12 +1,10 @@
 from torch.nn import Module, Sequential
 
-from architecture import Architecture
 
-
-class PytorchNetwork(Architecture, Module):
+class PytorchNetwork(Module):
     def __init__(self, layers):
-        super(Architecture).__init__(layers)
-        super(Module).__init__()
+        super(PytorchNetwork, self).__init__()
+        self.layers = layers
         self.architecture = Sequential()
         self.__build_network()
 

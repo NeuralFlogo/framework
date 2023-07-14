@@ -1,6 +1,7 @@
 from blocks.linear import LinearBlock
+from generics.section import Section
 
 
-class LinearSection:
+class LinearSection(Section):
     def __init__(self, blocks: list[LinearBlock]):
-        self.blocks = blocks
+        super().__init__(blocks)

@@ -3,13 +3,11 @@ from torch import nn
 from layers.activation import ActivationLayer
 
 
-class PytorchRelu(ActivationLayer):
+class PytorchRelu(nn.Module, ActivationLayer):
 
     def __init__(self):
-        self.layer = self.__create_layer()
-
-    def __create_layer(self):
-        return nn.ReLU()
+        nn.Module.__init__(self)
+        self.layer = nn.ReLU()
 
     def forward(self, x):
         return self.layer(x)
