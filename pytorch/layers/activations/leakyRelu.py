@@ -4,7 +4,6 @@ from layers.activation import ActivationLayer
 
 
 class PytorchLeakyRelu(nn.Module, ActivationLayer):
-
     def __init__(self):
         nn.Module.__init__(self)
         self.layer = nn.LeakyReLU()

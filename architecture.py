@@ -1,10 +1,10 @@
-from generics.data import Data
+from input import Input
 from pytorch.network import PytorchNetwork
 
 
 class Architecture:
-    def __init__(self, data: Data, name: str = None):
-        self.data = data
+    def __init__(self, inputs: Input, name: str = None):
+        self.inputs = inputs
         self.name = name
 
     def build(self):

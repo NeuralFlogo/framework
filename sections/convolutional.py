@@ -1,12 +1,16 @@
 from blocks.convolutional import ConvolutionalBlock
-from generics.section import Section
+from section import Section
 from layers.pool import PoolingLayer
 
 
 class ConvolutionalSection(Section):
     def __init__(self, blocks: list[ConvolutionalBlock], pooling: PoolingLayer):
-        super().__init__(blocks)
+        self.blocks = blocks
         self.pooling = pooling
 
     def get_layers(self):
-        return super(ConvolutionalSection, self).get_layers() + [self.pooling]
+        layers = self.unstack_layers_from_blocks().append(self.pooling)
+        return layers
+
+    def unstack_layers_from_blocks(self):
+        return [block.get_layers() for block in self.blocks]

@@ -4,7 +4,6 @@ from layers.activation import ActivationLayer
 
 
 class PytorchSoftMax(nn.Module, ActivationLayer):
-
     def __init__(self, n_dimensions):
         nn.Module.__init__(self)
         self.n_dimensions = n_dimensions
