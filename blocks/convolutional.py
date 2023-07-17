@@ -10,5 +10,5 @@ class ConvolutionalBlock(Block):
         self.activation = activation
         self.normalization = normalization
 
-    def get_layers(self):
+    def layers(self):
         return self.convolution, self.activation, self.normalization

@@ -1,2 +1,5 @@
-class ActivationLayer:
+from layer import Layer
+
+
+class ActivationLayer(Layer):
     pass

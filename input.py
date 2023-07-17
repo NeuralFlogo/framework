@@ -1,8 +1,8 @@
-class Track:
+class Input:
     def __init__(self, shape):
         self.shape = shape
-        self.layers = []
+        self.route = []
 
-    def add(self, layer):
-        self.layers.append(layer)
+    def add(self, component):
+        self.route.append(component)
         return self

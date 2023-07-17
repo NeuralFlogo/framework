@@ -10,5 +10,5 @@ class LinearBlock(Block):
         self.activation = activation
         self.normalization = normalization
 
-    def get_layers(self):
+    def layers(self):
         return self.linear, self.activation, self.normalization

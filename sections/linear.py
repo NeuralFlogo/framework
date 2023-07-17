@@ -6,5 +6,5 @@ class LinearSection(Section):
     def __init__(self, blocks: list[LinearBlock]):
         self.blocks = blocks
 
-    def get_layers(self):
-        return [block.get_layers() for block in self.blocks]
+    def layers(self):
+        return [block.layers() for block in self.blocks]

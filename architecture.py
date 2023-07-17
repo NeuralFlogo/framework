@@ -1,14 +1,15 @@
 from input import Input
-from pytorch.network import PytorchNetwork
+from layer import Layer
 
 
 class Architecture:
-    def __init__(self, inputs: Input, name: str = None):
+    def __init__(self, inputs: Input, network, name: str = None):  #TODO allow multiple inputs (list of inputs) for Resnet
         self.inputs = inputs
         self.name = name
+        self.network = network
 
     def build(self):
         layers = []
-        for section in self.data.sections:
-            layers += section.get_layers()
-        return PytorchNetwork(layers)
+        for step in self.inputs.route:
+            layers.append(step) if isinstance(step, Layer) else layers += step.layers()
+        return self.network.build(layers)
