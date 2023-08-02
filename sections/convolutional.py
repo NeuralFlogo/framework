@@ -9,8 +9,7 @@ class ConvolutionalSection(Section):
         self.pooling = pooling
 
     def layers(self):
-        layers = self.unstack_layers_from_blocks().append(self.pooling)
-        return layers
+        return [*self.unstack_blocks(), self.pooling]
 
-    def unstack_layers_from_blocks(self):
+    def unstack_blocks(self):
         return [block.layers() for block in self.blocks]

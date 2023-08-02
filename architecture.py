@@ -10,6 +10,6 @@ class Architecture:
 
     def build(self):
         layers = []
-        for step in self.inputs.route:
+        for step in self.inputs.trail:
             layers.append(step) if isinstance(step, Layer) else layers += step.layers()
         return self.network.build(layers)

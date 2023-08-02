@@ -1,8 +1,8 @@
 class Input:
     def __init__(self, shape):
         self.shape = shape
-        self.route = []
+        self.trail = []
 
-    def add(self, component):
-        self.route.append(component)
+    def add(self, step):
+        self.trail.append(step)
         return self

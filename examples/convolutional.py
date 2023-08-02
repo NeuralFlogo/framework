@@ -16,8 +16,8 @@ data = Input(shape=(6, 6, 6))
 data = ConvolutionalSection([ConvolutionalBlock(PytorchConvolutional(1, 6, 5), PytorchRelu())], PytorchMaxPooling())(data)
 data = ConvolutionalSection([ConvolutionalBlock(PytorchConvolutional(7, 8, 5), PytorchRelu())], PytorchMaxPooling())(data)
 data = PytorchFlatten(1, 3)(data)
-outputs = LinearSection([LinearBlock(PytorchLinear(1600, 120), PytorchRelu()), LinearBlock(PytorchLinear(1600, 120), PytorchSoftMax(2))])(data)
+outputs = LinearSection([LinearBlock(PytorchLinear(1600, 120), PytorchRelu()), LinearBlock(PytorchLinear(120, 2), PytorchSoftMax(2))])(data)
 
-architecture = Architecture(inputs=data, network=PytorchNetwork(), name="Linear").build()
+architecture = Architecture(inputs=data, network=PytorchNetwork(), name="Convolutional").build()
 
 print(architecture.architecture)
