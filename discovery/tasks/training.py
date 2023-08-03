@@ -8,12 +8,12 @@ class TrainingTask:
         self.validator = validator
         self.early_stopping = early_stopping
 
-    def execute(self, epochs, model, training_dataset, validation_dataset=None):
+    def execute(self, epochs, architecture, training_dataset, validation_dataset=None):
         for epoch in range(epochs):
-            self.trainer.train(model, training_dataset)
+            self.trainer.train(architecture, training_dataset)
             if validation_dataset:
-                if self.__is_model_trained(model, validation_dataset): break
-        return model
+                if self.__is_model_trained(architecture, validation_dataset): break
+        return architecture
 
     def __is_model_trained(self, model, validation_dataset):
         return self.early_stopping.check(self.validator.validate(model, validation_dataset))
