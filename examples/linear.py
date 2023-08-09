@@ -36,8 +36,6 @@ x = LinearSection([
     LinearBlock(PytorchLinear(120, 50), PytorchRelu(), PytorchDropout(0.01)),
     LinearBlock(PytorchLinear(50, 2), PytorchRelu(), PytorchDropout(0.01))])(data)
 
-# residual = x.add(data)
-
 x = LinearSection([
     LinearBlock(PytorchLinear(2, 120), PytorchRelu(), PytorchDropout(0.01)),
     LinearBlock(PytorchLinear(120, 50), PytorchRelu(), PytorchDropout(0.01)),
@@ -50,8 +48,6 @@ x = LinearSection([
 
 architecture = Architecture(input=x, network=PytorchNetwork(), name="Linear").build()
 
-
-print(summary(architecture))
 
 model = TrainingTask(PytorchTrainer(PytorchSGD(architecture.parameters(), 0.01), PytorchMSELoss()))\
     .execute(epochs=10, architecture=architecture, training_dataset=dataset)
