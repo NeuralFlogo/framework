@@ -1,6 +1,6 @@
 from torch import nn
 
-from layers.linear import LinearLayer
+from framework.structure.layers.linear import LinearLayer
 
 
 class PytorchLinear(nn.Module, LinearLayer):

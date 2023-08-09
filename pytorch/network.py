@@ -1,13 +1,29 @@
 from torch.nn import Module, Sequential
 
+from dataset_adder import DatasetAdder
 
-class PytorchNetwork(Module): # TODO how will this work when there are multiple inputs?
+
+class PytorchNetwork(Module):
     def __init__(self):
         super(PytorchNetwork, self).__init__()
-        self.architecture = Sequential()
+        self.architectures = []
 
-    def build(self):
-        [self.architecture.append(layer) for layer in self.layers]
+    def build(self, layers):
+        sequential = Sequential()
+        for layer in layers:
+            if isinstance(layer, DatasetAdder):
+                sequential = self.__new_add_layer(layer, sequential)
+            else:
+                sequential.append(layer)
+        return self
+
+    def __new_add_layer(self, layer, sequential):
+        self.architectures.append(sequential)
+        self.architectures.append(layer)
+        sequential = Sequential()
+        return sequential
 
     def forward(self, x):
-        return self.architecture(x)
+        for architecture in self.architectures:
+            x = architecture(x)
+        return x

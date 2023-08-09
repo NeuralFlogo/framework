@@ -1,5 +1,5 @@
-from discovery.regularization.early_stopping import EarlyStopping
-from discovery.regularization.monitors.growth import GrowthMonitor
+from framework.discovery.regularization.early_stopping import EarlyStopping
+from framework.discovery.regularization.monitors.growth import GrowthMonitor
 
 
 class TrainingTask:

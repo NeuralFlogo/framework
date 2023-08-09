@@ -1,6 +1,6 @@
 from torch import nn
 
-from layers.convolutional import ConvolutionalLayer
+from framework.structure.layers.convolutional import ConvolutionalLayer
 
 
 class PytorchConvolutional(nn.Module, ConvolutionalLayer):

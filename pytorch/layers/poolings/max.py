@@ -1,5 +1,5 @@
 from torch import nn
-from layers.pool import PoolingLayer
+from framework.structure.layers.pool import PoolingLayer
 
 
 class PytorchMaxPooling(nn.Module, PoolingLayer):

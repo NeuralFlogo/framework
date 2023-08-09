@@ -1,7 +1,7 @@
 from block import Block
-from layers.activation import ActivationLayer
-from layers.linear import LinearLayer
-from layers.normalization import NormalizationLayer
+from framework.structure.layers.activation import ActivationLayer
+from framework.structure.layers.linear import LinearLayer
+from framework.structure.layers.normalization import NormalizationLayer
 
 
 class LinearBlock(Block):
@@ -11,4 +11,5 @@ class LinearBlock(Block):
         self.normalization = normalization
 
     def layers(self):
-        return self.linear, self.activation, self.normalization
+
+        return [self.linear, self.activation, self.normalization]

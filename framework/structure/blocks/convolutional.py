@@ -1,7 +1,7 @@
 from block import Block
-from layers.activation import ActivationLayer
-from layers.convolutional import ConvolutionalLayer
-from layers.normalization import NormalizationLayer
+from framework.structure.layers.activation import ActivationLayer
+from framework.structure.layers.convolutional import ConvolutionalLayer
+from framework.structure.layers.normalization import NormalizationLayer
 
 
 class ConvolutionalBlock(Block):
@@ -11,4 +11,4 @@ class ConvolutionalBlock(Block):
         self.normalization = normalization
 
     def layers(self):
-        return self.convolution, self.activation, self.normalization
+        return [self.convolution, self.activation, self.normalization]

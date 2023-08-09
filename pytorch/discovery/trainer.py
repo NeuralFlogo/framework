@@ -1,5 +1,5 @@
-from discovery.hyperparameters.loss import Loss
-from discovery.hyperparameters.optimizer import Optimizer
+from framework.discovery.hyperparameters.loss import Loss
+from framework.discovery.hyperparameters.optimizer import Optimizer
 
 
 class PytorchTrainer:

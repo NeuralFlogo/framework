@@ -1,6 +1,6 @@
 import torch.optim
 
-from discovery.hyperparameters.optimizer import Optimizer
+from framework.discovery.hyperparameters.optimizer import Optimizer
 
 
 class PytorchAdam(Optimizer):

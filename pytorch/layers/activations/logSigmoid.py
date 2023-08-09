@@ -1,6 +1,6 @@
 from torch import nn
 
-from layers.activation import ActivationLayer
+from framework.structure.layers.activation import ActivationLayer
 
 
 class PytorchLogSigmoid(nn.Module, ActivationLayer):

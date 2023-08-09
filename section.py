@@ -7,4 +7,4 @@ class Section(ABC):
         pass
 
     def __call__(self, x):
-        return x.add(self)
+        return x.add_layer(self)

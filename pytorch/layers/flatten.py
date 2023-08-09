@@ -1,8 +1,8 @@
 from torch import nn
-from layers.flatten import FlattenLayer
+from framework.structure.layers.flatten import FlattenLayer
 
 
-class PytorchFlatten(nn.Module, FlattenLayer):
+class PytorchFlatten(FlattenLayer, nn.Module):
     def __init__(self, start_dim, end_dim):
         nn.Module.__init__(self)
         FlattenLayer.__init__(self, start_dim, end_dim)

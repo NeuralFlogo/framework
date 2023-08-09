@@ -1,5 +1,5 @@
 from torch import nn
-from layers.normalization import NormalizationLayer
+from framework.structure.layers.normalization import NormalizationLayer
 
 
 class PytorchDropout(nn.Module, NormalizationLayer):
