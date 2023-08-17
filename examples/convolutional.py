@@ -13,20 +13,14 @@ from pytorch.pmodel import PytorchModel
 from sections.convolutional import ConvolutionalSection
 from sections.linear import LinearSection
 
-model = Architecture(PytorchModel(), "convolucional") \
+model = Architecture(PytorchModel(), "convolutional") \
     .attach(ConvolutionalSection([
-        ConvolutionalBlock(PytorchConvolutional(1, 6, 5), PytorchRelu())], PytorchMaxPooling()))\
+     ConvolutionalBlock(PytorchConvolutional(1, 6, 5), PytorchRelu())], PytorchMaxPooling())) \
     .attach(ConvolutionalSection([
-    ConvolutionalBlock(PytorchConvolutional(7, 8, 5), PytorchRelu())], PytorchMaxPooling())) \
+     ConvolutionalBlock(PytorchConvolutional(7, 8, 5), PytorchRelu())], PytorchMaxPooling())) \
     .attach(PytorchFlatten(1, 3)) \
     .attach(LinearSection([
      LinearBlock(PytorchLinear(110, 60), [PytorchBatchNormalization(110)], PytorchRelu(), [PytorchDropout(0.5)]),
      LinearBlock(PytorchLinear(60, 30), [PytorchBatchNormalization(60)], PytorchRelu(), [PytorchDropout(0.5)]),
-     LinearBlock(PytorchLinear(30, 2), [PytorchBatchNormalization(30)], PytorchSoftmax(2))]))\
+     LinearBlock(PytorchLinear(30, 2), [PytorchBatchNormalization(30)], PytorchSoftmax(2))])) \
     .build()
-
-print(model)
-
-#model = TrainingTask(PytorchTrainer(
-#    PytorchSGD(model.parameters(), 0.01), PytorchMSELoss())
-#).execute(epochs=10, model=model, training_dataset=[1, 1, 1])

@@ -1,9 +1,5 @@
 from architecture import Architecture
 from blocks.linear import LinearBlock
-from discovery.tasks.training import TrainingTask
-from pytorch.discovery.hyperparameters.losses.mse import PytorchMSELoss
-from pytorch.discovery.hyperparameters.optimizers.sgd import PytorchSGD
-from pytorch.discovery.trainer import PytorchTrainer
 from pytorch.layers.activations.relu import PytorchRelu
 from pytorch.layers.activations.softmax import PytorchSoftmax
 from pytorch.layers.linear import PytorchLinear
@@ -18,7 +14,3 @@ model = Architecture(network=PytorchModel(), name="Linear") \
     LinearBlock(PytorchLinear(50, 20), [PytorchBatchNormalization(50)], PytorchRelu(), [PytorchDropout(0.5)]),
     LinearBlock(PytorchLinear(20, 10), [PytorchBatchNormalization(512)], PytorchSoftmax(10))])) \
     .build()
-
-print(model)
-#fit_model = TrainingTask(PytorchTrainer(PytorchSGD(model.parameters(), 0.01), PytorchMSELoss())
-                         #).execute(epochs=10, model=model, training_dataset=[1, 1, 1])
