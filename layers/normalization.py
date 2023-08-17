@@ -1,4 +1,5 @@
-class NormalizationLayer:
+from layer import Layer
 
-    def __init__(self, probability):
-        self.probability = probability
+
+class NormalizationLayer(Layer):
+    pass

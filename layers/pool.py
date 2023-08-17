@@ -1,6 +1,5 @@
-class PoolLayer:
+from layer import Layer
 
-    def __init__(self, kernel, stride, padding):
-        self.kernel = kernel
-        self.stride = stride
-        self.padding = padding
+
+class PoolingLayer(Layer):
+    pass

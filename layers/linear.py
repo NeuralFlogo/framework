@@ -1,5 +1,5 @@
-class LinearLayer:
+from layer import Layer
 
-    def __init__(self, input_dimension, output_dimension):
-        self.input_dimension = input_dimension
-        self.output_dimension = output_dimension
+
+class LinearLayer(Layer):
+    pass

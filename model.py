@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class Section(ABC):
+class Model(ABC):
     @abstractmethod
-    def layers(self):
+    def build(self, layers):
         pass

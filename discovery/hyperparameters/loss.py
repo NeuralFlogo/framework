@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class Section(ABC):
+class Loss(ABC):
     @abstractmethod
-    def layers(self):
+    def compute(self, predictions, labels):
         pass

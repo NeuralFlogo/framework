@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class Section(ABC):
+class Optimizer(ABC):
     @abstractmethod
-    def layers(self):
+    def step(self):
         pass
