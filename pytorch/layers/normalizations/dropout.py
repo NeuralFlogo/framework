@@ -1,12 +1,10 @@
 from torch import nn
-from framework.structure.layers.normalization import NormalizationLayer
+from layers.normalization import NormalizationLayer
 
 
-class PytorchDropout(nn.Module, NormalizationLayer):
+class PytorchDropout(NormalizationLayer):
     def __init__(self, probability):
-        nn.Module.__init__(self)
-        NormalizationLayer.__init__(self, probability)
-        self.layer = nn.Dropout(p=self.probability)
+        self.layer = nn.Dropout(p=probability)
 
-    def forward(self, x):
-        return self.layer(x)
+    def get(self):
+        return self.layer

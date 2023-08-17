@@ -1,6 +1,6 @@
 from random import random
 
-from framework.data.dataset.dataset import Dataset
+from data.dataset.dataset import Dataset
 
 
 class DatasetSplitter:

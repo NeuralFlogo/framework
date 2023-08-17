@@ -1,18 +1,18 @@
-from input import Input
+from block import Block
 from layer import Layer
+from model import Model
+from section import Section
 
 
 class Architecture:
-    def __init__(self, input: Input, network, name: str = None):
-        self.input = input
+    def __init__(self, network: Model, name: str = None):
+        self.structure = []
         self.network = network
         self.name = name
-        self.layers = []
+
+    def attach(self, component: Section | Block | Layer):
+        self.structure.append(component.get()) if isinstance(component, Layer) else self.structure.extend(component.layers())
+        return self
 
     def build(self):
-        for step in self.input.route:
-            if isinstance(step, Layer):
-                self.layers.append(step)
-            else:
-                self.layers += step.layers()
-        return self.network.build(self.layers)
+        return self.network.build(self.structure)

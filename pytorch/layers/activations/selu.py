@@ -1,12 +1,11 @@
 from torch import nn
 
-from framework.structure.layers.activation import ActivationLayer
+from layers.activation import ActivationLayer
 
 
-class PytorchSelu(nn.Module, ActivationLayer):
+class PytorchSelu(ActivationLayer):
     def __init__(self):
-        nn.Module.__init__(self)
         self.layer = nn.SELU()
 
-    def forward(self, x):
-        return self.layer(x)
+    def get(self):
+        return self.layer

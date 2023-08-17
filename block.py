@@ -5,6 +5,3 @@ class Block(ABC):
     @abstractmethod
     def layers(self):
         pass
-
-    def __call__(self, x):
-        return x.add_layer(self)

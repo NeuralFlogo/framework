@@ -1,13 +1,10 @@
 from torch import nn
-from framework.structure.layers.pool import PoolingLayer
+from layers.pool import PoolingLayer
 
 
-class PytorchAveragePooling(nn.Module, PoolingLayer):
+class PytorchAveragePooling(PoolingLayer):
     def __init__(self, kernel, stride, padding):
-        nn.Module.__init__(self)
-        PoolingLayer.__init__(self, kernel, stride, padding)
-        self.layer = nn.AvgPool2d(kernel_size=self.kernel, stride=self.stride, padding=self.padding)
+        self.layer = nn.AvgPool2d(kernel_size=kernel, stride=stride, padding=padding)
 
-    def forward(self, x):
-        return self.layer(x)
-
+    def get(self):
+        return self.layer

@@ -1,6 +1,6 @@
 from torch import nn
 
-from framework.discovery.hyperparameters.loss import Loss
+from discovery.hyperparameters.loss import Loss
 
 
 class PytorchMSELoss(Loss):
