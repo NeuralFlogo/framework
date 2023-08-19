@@ -14,3 +14,4 @@ model = Architecture(network=PytorchModel(), name="Linear") \
     LinearBlock(PytorchLinear(50, 20), [PytorchBatchNormalization(50)], PytorchRelu(), [PytorchDropout(0.5)]),
     LinearBlock(PytorchLinear(20, 10), [PytorchBatchNormalization(512)], PytorchSoftmax(10))])) \
     .build()
+print(model)

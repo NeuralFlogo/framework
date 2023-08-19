@@ -24,3 +24,4 @@ model = Architecture(PytorchModel(), "convolutional") \
      LinearBlock(PytorchLinear(60, 30), [PytorchBatchNormalization(60)], PytorchRelu(), [PytorchDropout(0.5)]),
      LinearBlock(PytorchLinear(30, 2), [PytorchBatchNormalization(30)], PytorchSoftmax(2))])) \
     .build()
+print(model)
