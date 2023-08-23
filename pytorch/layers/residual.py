@@ -1,52 +1,60 @@
-from torch.nn import Module, Sequential, Conv2d, BatchNorm2d, ReLU
+from torch.nn import Module, Conv2d, BatchNorm2d, ReLU, Sequential
 
 from layers.residual import ResidualLayer
 
+BASE_INPUT = 64
+
 
 class PytorchResidual(ResidualLayer):
-    def __init__(self, in_features, out_features: int, hidden_size: int, expansion: int, stride: int = 1):
-        self.layer = Sequential(*tuple(self.__create_residual_block(i, in_features, out_features, expansion, stride) for i in range(hidden_size)))
-
-    def __create_residual_block(self, idx, in_features, out_features, expansion, stride):
-        if idx == 0:
-            return self.ResidualBlock(in_features, out_features, stride)
-        return self.ResidualBlock(in_features * expansion, out_features, expansion)
+    def __init__(self, in_features: int, stride: int, hidden_size: int, expansion: int = 4):
+        layers = []
+        for i in range(hidden_size):
+            if i == 0:
+                layers.append(self.Bottleneck(in_features=self.__in_feat(in_features), out_features=in_features, expansion=expansion, stride=stride))
+            else:
+                layers.append(self.Bottleneck(in_features=in_features * expansion, out_features=in_features, expansion=expansion, stride=1))
+        self.layer = Sequential(*layers)
 
     def get(self):
         return self.layer
 
-    class ResidualBlock(Module):
-        def __init__(self, in_features, out_features, expansion, stride=1):
+    @staticmethod
+    def __in_feat(in_features):
+        if in_features == BASE_INPUT: return in_features
+        return in_features * 2
+
+    class Bottleneck(Module):
+        def __init__(self, in_features: int, out_features: int, expansion: int,  stride: int):
             super().__init__()
-            self.conv1 = Sequential(
-                Conv2d(in_features, out_features, kernel_size=1, stride=1, padding=0),
-                BatchNorm2d(out_features))
-            self.conv2 = Sequential(
-                Conv2d(out_features, out_features, kernel_size=3, stride=stride, padding=1),
-                BatchNorm2d(out_features))
-            self.conv3 = Sequential(
-                Conv2d(out_features, out_features * 4, kernel_size=1, stride=1, padding=0),
-                BatchNorm2d(out_features * 4))
-            self.activation = ReLU()
-            self.downsample = self.__build_downsample(in_features, out_features, expansion, stride)
+            self.expansion = expansion
+            self.conv1 = Conv2d(in_features, out_features, kernel_size=1, stride=1)
+            self.bn1 = BatchNorm2d(out_features)
+            self.conv2 = Conv2d(out_features, out_features, kernel_size=3, stride=stride)
+            self.bn2 = BatchNorm2d(out_features)
+            self.conv3 = Conv2d(out_features, out_features * self.expansion, kernel_size=1, stride=1)
+            self.bn3 = BatchNorm2d(out_features * self.expansion)
+            self.relu = ReLU()
+            self.downsample = self.__init_downsample(in_features, out_features, stride)
 
-        def __build_downsample(self, in_features, out_features, expansion, stride):
-            return self.__create_conv_block(in_features, out_features, expansion, stride)\
-                if self.__is_size_different(in_features, out_features, expansion, stride) else None
+        def __init_downsample(self, in_features, out_features, stride):
+            if stride != 1 or in_features != out_features * self.expansion:
+                return self.__build_conv_block(in_features, out_features, stride)
+            else:
+                return None
 
-        def __is_size_different(self, in_features, out_features, expansion, stride):
-            return stride != 1 or in_features != out_features * expansion
-
-        def __create_conv_block(self, in_features, out_features, expansion, stride):
+        def __build_conv_block(self, in_features, out_features, stride):
             return Sequential(
-                    Conv2d(in_features, out_features * expansion, kernel_size=1, stride=stride),
-                    BatchNorm2d(out_features * expansion))
+                Conv2d(in_features, out_features * self.expansion, kernel_size=1, stride=stride),
+                BatchNorm2d(out_features * self.expansion))
 
         def forward(self, x):
             residue = x
             x = self.conv1(x)
+            x = self.bn1(x)
             x = self.conv2(x)
+            x = self.bn2(x)
             x = self.conv3(x)
+            x = self.bn3(x)
             if self.downsample:
                 residue = self.downsample(residue)
-            return self.activation(x + residue)
+            return self.relu(x + residue)

@@ -7,4 +7,4 @@ class ResidualBlock(Block):
         self.residuals = residuals
 
     def layers(self):
-        return tuple(layer.get() for layer in self.residuals)
+        return tuple(residual.get() for residual in self.residuals)
