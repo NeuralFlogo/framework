@@ -3,7 +3,5 @@ from abc import ABC
 from layer import Layer
 
 
-class FlattenLayer(Layer, ABC):
+class ResidualLayer(Layer, ABC):
     pass
-
-

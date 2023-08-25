@@ -1,7 +1,7 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 
 
 class Layer(ABC):
-    @staticmethod
-    def get():
+    @abstractmethod
+    def get(self):
         pass
