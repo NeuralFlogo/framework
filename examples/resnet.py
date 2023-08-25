@@ -16,15 +16,50 @@ from sections.convolutional import ConvolutionalSection
 from sections.linear import LinearSection
 from sections.residual import ResidualSection
 
-model = Architecture(PytorchModel(), "resnet")\
+resnet18 = Architecture(PytorchModel(), "resnet18")\
     .attach(ConvolutionalSection([
                 ConvolutionalBlock(PytorchConvolutional(3, 64, 7, 2, 3), PytorchBatchNormalization(64), PytorchRelu())],
                 PytorchMaxPooling(3, 2, 1)))\
     .attach(ResidualSection(
-                ResidualBlock([PytorchResidual(64, 1, 3), PytorchResidual(128, 2, 4), PytorchResidual(256, 2, 6), PytorchResidual(512, 2, 3)]),
+                ResidualBlock([PytorchResidual(64, 2, 1), PytorchResidual(128, 2, 1), PytorchResidual(256, 2, 1), PytorchResidual(512, 2, 1)]),
                 PytorchAveragePooling(7, 1, 0)))\
     .attach(LinearSection([
                 LinearBlock(PytorchLinear(512, 1000), [PytorchBatchNormalization(512)], PytorchRelu(), [PytorchDropout(0.5)]),
                 LinearBlock(PytorchLinear(1000, 10), [PytorchBatchNormalization(512)], PytorchSoftmax(10))])).build()
 
-print(model)
+
+resnet34 = Architecture(PytorchModel(), "resnet34")\
+    .attach(ConvolutionalSection([
+                ConvolutionalBlock(PytorchConvolutional(3, 64, 7, 2, 3), PytorchBatchNormalization(64), PytorchRelu())],
+                PytorchMaxPooling(3, 2, 1)))\
+    .attach(ResidualSection(
+                ResidualBlock([PytorchResidual(64, 3, 1), PytorchResidual(128, 4, 1), PytorchResidual(256, 6, 1), PytorchResidual(512, 3, 1)]),
+                PytorchAveragePooling(7, 1, 0)))\
+    .attach(LinearSection([
+                LinearBlock(PytorchLinear(512, 1000), [PytorchBatchNormalization(512)], PytorchRelu(), [PytorchDropout(0.5)]),
+                LinearBlock(PytorchLinear(1000, 10), [PytorchBatchNormalization(512)], PytorchSoftmax(10))])).build()
+
+
+resnet50 = Architecture(PytorchModel(), "resnet50")\
+    .attach(ConvolutionalSection([
+                ConvolutionalBlock(PytorchConvolutional(3, 64, 7, 2, 3), PytorchBatchNormalization(64), PytorchRelu())],
+                PytorchMaxPooling(3, 2, 1)))\
+    .attach(ResidualSection(
+                ResidualBlock([PytorchResidual(64, 3), PytorchResidual(128, 4), PytorchResidual(256, 6), PytorchResidual(512, 3)]),
+                PytorchAveragePooling(7, 1, 0)))\
+    .attach(LinearSection([
+                LinearBlock(PytorchLinear(512, 1000), [PytorchBatchNormalization(512)], PytorchRelu(), [PytorchDropout(0.5)]),
+                LinearBlock(PytorchLinear(1000, 10), [PytorchBatchNormalization(512)], PytorchSoftmax(10))])).build()
+
+resnet101 = Architecture(PytorchModel(), "resnet101")\
+    .attach(ConvolutionalSection([
+                ConvolutionalBlock(PytorchConvolutional(3, 64, 7, 2, 3), PytorchBatchNormalization(64), PytorchRelu())],
+                PytorchMaxPooling(3, 2, 1)))\
+    .attach(ResidualSection(
+                ResidualBlock([PytorchResidual(64, 3), PytorchResidual(128, 4), PytorchResidual(256, 23), PytorchResidual(512, 3)]),
+                PytorchAveragePooling(7, 1, 0)))\
+    .attach(LinearSection([
+                LinearBlock(PytorchLinear(512, 1000), [PytorchBatchNormalization(512)], PytorchRelu(), [PytorchDropout(0.5)]),
+                LinearBlock(PytorchLinear(1000, 10), [PytorchBatchNormalization(512)], PytorchSoftmax(10))])).build()
+
+print(resnet101)
