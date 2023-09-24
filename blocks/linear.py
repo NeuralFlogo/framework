@@ -5,20 +5,15 @@ from layers.normalization import NormalizationLayer
 
 
 class LinearBlock(Block):
-    def __init__(self, linear: LinearLayer, prev_normalizations: list[NormalizationLayer] = None, activation: ActivationLayer = None, post_normalizations: list[NormalizationLayer] = None):
+    def __init__(self, linear: LinearLayer, pre_normalization: NormalizationLayer = None, activation: ActivationLayer = None, post_normalization: NormalizationLayer = None):
         self.linear = linear
-        self.prev_normalizations = prev_normalizations
+        self.pre_normalization = pre_normalization
         self.activation = activation
-        self.post_normalizations = post_normalizations
+        self.post_normalization = post_normalization
 
     def layers(self):
         block = [self.linear.get()]
-        if self.prev_normalizations: self.__append_bacth_of_layers(self.prev_normalizations, block)
+        if self.pre_normalization: block.append(self.pre_normalization.get())
         if self.activation: block.append(self.activation.get())
-        if self.post_normalizations: self.__append_bacth_of_layers(self.post_normalizations, block)
+        if self.post_normalization: block.append(self.post_normalization.get())
         return tuple(block)
-
-    def __append_bacth_of_layers(self, batch, block):
-        for layer in batch:
-            block.append(layer.get())
-        return block

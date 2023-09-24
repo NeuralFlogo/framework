@@ -15,13 +15,13 @@ from sections.linear import LinearSection
 
 model = Architecture(PytorchModel(), "convolutional") \
     .attach(ConvolutionalSection([
-     ConvolutionalBlock(PytorchConvolutional(1, 6, 5), PytorchRelu())], PytorchMaxPooling())) \
+     ConvolutionalBlock(PytorchConvolutional(1, 6, 5), activation=PytorchRelu())], PytorchMaxPooling())) \
     .attach(ConvolutionalSection([
-     ConvolutionalBlock(PytorchConvolutional(7, 8, 5), PytorchRelu())], PytorchMaxPooling())) \
+     ConvolutionalBlock(PytorchConvolutional(7, 8, 5), activation=PytorchRelu())], PytorchMaxPooling())) \
     .attach(PytorchFlatten(1, 3)) \
     .attach(LinearSection([
-     LinearBlock(PytorchLinear(110, 60), [PytorchBatchNormalization(110)], PytorchRelu(), [PytorchDropout(0.5)]),
-     LinearBlock(PytorchLinear(60, 30), [PytorchBatchNormalization(60)], PytorchRelu(), [PytorchDropout(0.5)]),
-     LinearBlock(PytorchLinear(30, 2), [PytorchBatchNormalization(30)], PytorchSoftmax(2))])) \
+     LinearBlock(PytorchLinear(110, 60), PytorchBatchNormalization(110), PytorchRelu(), PytorchDropout(0.5)),
+     LinearBlock(PytorchLinear(60, 30), PytorchBatchNormalization(60), PytorchRelu(), PytorchDropout(0.5)),
+     LinearBlock(PytorchLinear(30, 2), PytorchBatchNormalization(30), PytorchSoftmax(2))])) \
     .build()
 print(model)
