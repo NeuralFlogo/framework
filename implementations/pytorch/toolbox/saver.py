@@ -1,11 +1,11 @@
 import torch
 
-from framework.toolbox.saver import Saver
+from framework.toolbox.saver import CheckpointSaver
 from implementations.pytorch.architecture.architecture import PytorchArchitecture
 from implementations.pytorch.toolbox.optimizer import PytorchOptimizer
 
 
-class PytorchSaver(Saver):
+class PytorchSaver(CheckpointSaver):
     def __init__(self, root: str):
         self.root = root
 

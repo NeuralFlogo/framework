@@ -18,6 +18,4 @@ class PytorchArchitecture(Module, Architecture):
         return self
 
     def forward(self, x):
-        for layer in self.module_list:
-            x = layer(x)
-        return x
+        return self.components(x)

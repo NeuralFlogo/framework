@@ -3,7 +3,14 @@ from torch import nn
 from implementations.pytorch.architecture.layers.regularization import PytorchRegularizationLayer
 
 
-class PytorchBatchNormalizationLayer(PytorchRegularizationLayer):
-    def __init__(self, out_channels: int, probability: float, eps: float):
-        super(PytorchBatchNormalizationLayer, self).__init__()
-        self.layer = nn.BatchNorm2d(out_channels, eps=eps, momentum=probability)
+class PytorchUnidimensionalBatchNormalizationLayer(PytorchRegularizationLayer):
+    def __init__(self, num_features: int, eps: float = 1e-5, momentum: float = 0.1):
+        super(PytorchUnidimensionalBatchNormalizationLayer, self).__init__()
+        self.layer = nn.BatchNorm1d(num_features=num_features, eps=eps, momentum=momentum)
+
+
+class PytorchBidimensionalBatchNormalizationLayer(PytorchRegularizationLayer):
+    def __init__(self, num_features: int, eps: float = 1e-5, momentum: float = 0.1):
+        super(PytorchBidimensionalBatchNormalizationLayer, self).__init__()
+        self.layer = nn.BatchNorm2d(num_features=num_features, eps=eps, momentum=momentum)
+

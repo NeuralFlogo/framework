@@ -1,4 +1,4 @@
-from framework.toolbox.optimizer import Scheduler
+from framework.toolbox.scheduler import Scheduler
 
 
 class PytorchScheduler(Scheduler):

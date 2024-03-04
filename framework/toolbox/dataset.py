@@ -11,10 +11,6 @@ class Dataset(ABC):
         pass
 
     @abstractmethod
-    def evaluation(self) -> 'Dataset':
-        pass
-
-    @abstractmethod
     def test(self) -> 'Dataset':
         pass
 

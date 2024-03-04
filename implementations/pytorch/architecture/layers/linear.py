@@ -5,6 +5,6 @@ from implementations.pytorch.architecture.layer import PytorchLayer
 
 
 class PytorchLinearLayer(PytorchLayer, LinearLayer):
-    def __init__(self, in_features: int, out_features: int):
+    def __init__(self, in_features: int, out_features: int, bias: bool = True):
         super(PytorchLinearLayer, self).__init__()
-        self.layer = nn.Linear(in_features=in_features, out_features=out_features)
+        self.layer = nn.Linear(in_features=in_features, out_features=out_features, bias=bias)

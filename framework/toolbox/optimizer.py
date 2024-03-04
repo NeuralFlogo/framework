@@ -1,15 +1,16 @@
 from abc import ABC, abstractmethod
 
-
-class Scheduler:
-    pass
+from framework.toolbox.scheduler import Scheduler
 
 
 class Optimizer(ABC):
-    def __init__(self, learning_rate: float, scheduler: Scheduler = None):
-        self.learning_rate = learning_rate
+    def __init__(self, scheduler: Scheduler = None):
         self.scheduler = scheduler
 
     @abstractmethod
     def move(self):
+        pass
+
+    @abstractmethod
+    def weights(self):
         pass

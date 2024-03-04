@@ -13,5 +13,5 @@ class PytorchOptimizer(Optimizer):
         pass
 
     @abstractmethod
-    def params(self):
+    def weights(self):
         pass

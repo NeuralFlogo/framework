@@ -4,6 +4,6 @@ from implementations.pytorch.architecture.layers.activation import PytorchActiva
 
 
 class PytorchReluLayer(PytorchActivationLayer):
-    def __init__(self):
+    def __init__(self, inplace: bool = False):
         super(PytorchReluLayer, self).__init__()
-        self.layer = nn.ReLU()
+        self.layer = nn.ReLU(inplace=inplace)
