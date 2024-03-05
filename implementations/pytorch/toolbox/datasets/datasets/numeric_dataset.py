@@ -2,7 +2,6 @@ from typing import List
 
 import torch
 from torch.utils.data import DataLoader
-from torch.utils.data.dataset import T_co
 
 from framework.toolbox.dataset import Dataset
 from implementations.pytorch.toolbox.datasets.batch import PytorchBatch
@@ -12,7 +11,7 @@ PREDICTION_COLUMN_NAME = "prediction"
 
 class PytorchNumericDataset(torch.utils.data.Dataset, Dataset):
 
-    def __init__(self, pandas_dataset, batch_size):
+    def __init__(self, batch_size, pandas_dataset):
         super().__init__(batch_size)
         self.__pandas_dataset = pandas_dataset
 
