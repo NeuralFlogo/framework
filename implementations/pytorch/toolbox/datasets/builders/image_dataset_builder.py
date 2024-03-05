@@ -1,5 +1,6 @@
 import string
 
+from sklearn.model_selection import train_test_split
 from torch.utils.data import random_split
 
 from framework.toolbox.dataset import Dataset
@@ -18,12 +19,16 @@ class PytorchImageDatasetBuilder(DatasetBuilder):
         self.__datasets = None
 
     def build(self, train_proportion: float, validation_proportion: float, test_proportion: float):
-        dataset = self.__create_dataset()
-        self.__datasets = random_split(dataset, [train_proportion, validation_proportion, test_proportion])
+        train_data, test_data = train_test_split(self.__images, test_size=test_proportion,
+                                                 random_state=self.seed)
+        train_data, val_data = train_test_split(train_data, test_size=validation_proportion, random_state=self.seed)
+        self.__datasets.append(self.__create_dataset(train_data))
+        self.__datasets.append(self.__create_dataset(val_data))
+        self.__datasets.append(self.__create_dataset(test_data))
         return self
 
-    def __create_dataset(self):
-        return PytorchImageDataset(self.batch_size, self.__images)
+    def __create_dataset(self, images):
+        return PytorchImageDataset(self.batch_size, images)
 
     def train(self) -> 'Dataset':
         return self.__datasets[0]
@@ -41,4 +46,4 @@ class PytorchImageDatasetBuilder(DatasetBuilder):
 
     def __process_line(self, line):
         split_line = line.split(IMAGE_DELIMITER)
-        self.__images.append((split_line[0], split_line[1]))
+        self.__images.append((self.path + split_line[0], split_line[1]))

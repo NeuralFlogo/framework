@@ -15,18 +15,22 @@ class PytorchNumericDatasetBuilder(DatasetBuilder):
     def __init__(self, path: string, batch_size: int, seed: int):
         super().__init__(path, batch_size, seed)
         self.__pandas_dataset = self.__load()
-        self.__datasets = None
+        self.__datasets = []
 
     def __load(self):
         return pd.read_csv(self.path)
 
     def build(self, train_proportion: float, validation_proportion: float, test_proportion: float):
-        dataset = self.__create_dataset()
-        self.__datasets = random_split(dataset, [train_proportion, validation_proportion, test_proportion])
+        train_data, test_data = train_test_split(self.__pandas_dataset, test_size=test_proportion,
+                                                 random_state=self.seed)
+        train_data, val_data = train_test_split(train_data, test_size=validation_proportion, random_state=self.seed)
+        self.__datasets.append(self.__create_dataset(train_data))
+        self.__datasets.append(self.__create_dataset(val_data))
+        self.__datasets.append(self.__create_dataset(test_data))
         return self
 
-    def __create_dataset(self):
-        return PytorchNumericDataset(self.batch_size, self.__pandas_dataset)
+    def __create_dataset(self, pandas_dataset):
+        return PytorchNumericDataset(self.batch_size, pandas_dataset)
 
     def train(self) -> 'Dataset':
         return self.__datasets[0]
