@@ -6,7 +6,7 @@ from framework.toolbox.dataset import Dataset
 from framework.toolbox.experiment import Experiment
 from implementations.pytorch.architecture.architecture import PytorchArchitecture
 from implementations.pytorch.architecture.model import PytorchModel
-from implementations.pytorch.toolbox.dataset import PytorchDataset
+from implementations.pytorch.toolbox.datasets.builders.numeric_dataset_builder import PytorchDataset
 from implementations.pytorch.toolbox.loss import PytorchLossFunction
 from implementations.pytorch.toolbox.optimizer import PytorchOptimizer
 from implementations.pytorch.toolbox.saver import PytorchSaver
