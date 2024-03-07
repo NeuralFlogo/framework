@@ -12,9 +12,9 @@ from implementations.pytorch.toolbox.stopper import PytorchEarlyStopper
 
 
 class PytorchExperiment(Experiment):
-    def __init__(self, loss_function: PytorchLossFunction, stopper: PytorchEarlyStopper,
+    def __init__(self, optimizer: PytorchOptimizer, loss_function: PytorchLossFunction, stopper: PytorchEarlyStopper,
                  checkpoint_saver: PytorchSaver):
-        super().__init__(loss_function, stopper, checkpoint_saver)
+        super().__init__(optimizer, loss_function, stopper, checkpoint_saver)
 
     def run(self, epochs: int, training_dataset: PytorchDataset, eval_dataset: PytorchDataset, architecture: PytorchArchitecture):
         best_loss = float("inf")
@@ -22,11 +22,11 @@ class PytorchExperiment(Experiment):
             print("-" * 25, 'Epoch {}'.format(epoch + 1), "-" * 29)
             train_loss = self.__train(training_dataset, architecture)
             valid_loss = self.__validate(eval_dataset, architecture)
-            # if self.__is_checkpoint(valid_loss, best_loss):
-            #     self.saver.save(PytorchModel(architecture), self.optimizer)
-            # if self.stopper.should_stop(valid_loss):
-            #     self.saver.save(PytorchModel(architecture), self.optimizer)
-            #     break
+            if self.__is_checkpoint(valid_loss, best_loss):
+                self.saver.save(PytorchModel(architecture), self.optimizer)
+            if self.stopper.should_stop(valid_loss):
+                self.saver.save(PytorchModel(architecture), self.optimizer)
+                break
             print("-" * 59)
             print('|\tEnd of Epoch {:3d} \t|\t Training Loss {:.4%} \t|\t Validation Loss {:.4%} \t|'.format(epoch + 1, train_loss, valid_loss))
             print("-" * 59)
@@ -47,7 +47,7 @@ class PytorchExperiment(Experiment):
         for batch in dataset.batches():
             outputs = architecture(batch.inputs())
             loss += self.loss_function.compute(outputs, batch.targets(), True)
-            # self.optimizer.move()
+            self.optimizer.move()
         architecture.train(False)
         return loss / len(dataset.batches())
 
@@ -57,7 +57,7 @@ class PytorchExperiment(Experiment):
         with torch.no_grad():
             for batch in dataset.batches():
                 outputs = architecture(batch.inputs())
-                loss += self.loss_function.compute(outputs, batch.targets(), False)
+                loss += self.loss_function.compute(outputs, batch.targets())
         return loss / len(dataset.batches())
 
     def __is_checkpoint(self, loss, best_loss):

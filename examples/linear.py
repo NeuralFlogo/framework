@@ -19,23 +19,24 @@ PATH = "C:/Users/Joel/Desktop/winequality-red.csv"
 dataset = PytorchNumericDatasetLoader(PATH, 5, 42).build(0.6, 0.2, 0.2)
 
 architecture = (PytorchArchitecture()
-.attach(PytorchLinearSection(
-    [PytorchLinearBlock([
-        PytorchLinearLayer(12, 30),
-        PytorchUnidimensionalBatchNormalizationLayer(30, 0.5, 0.3),
-        PytorchReluLayer(),
-        PytorchDropoutLayer(0.5)]),
-        PytorchLinearBlock([
-            PytorchLinearLayer(30, 10),
-            PytorchUnidimensionalBatchNormalizationLayer(10, 0.5, 0.5),
-            PytorchReluLayer(),
-            PytorchDropoutLayer(0.4)]),
-        PytorchLinearBlock([
-            PytorchLinearLayer(10, 1),
-            PytorchReluLayer()])
-    ])))
+                        .attach(PytorchLinearSection(
+                            [PytorchLinearBlock([
+                                PytorchLinearLayer(12, 30),
+                                PytorchUnidimensionalBatchNormalizationLayer(30, 0.5, 0.3),
+                                PytorchReluLayer(),
+                                PytorchDropoutLayer(0.5)]),
+                                PytorchLinearBlock([
+                                    PytorchLinearLayer(30, 10),
+                                    PytorchUnidimensionalBatchNormalizationLayer(10, 0.5, 0.5),
+                                    PytorchReluLayer(),
+                                    PytorchDropoutLayer(0.4)]),
+                                PytorchLinearBlock([
+                                    PytorchLinearLayer(10, 1),
+                                    PytorchReluLayer()])
+                            ])))
 
-experiment = PytorchExperiment(MsePytorchLossFunction(), PytorchEarlyStopper(10, 0.01),
+experiment = PytorchExperiment(SgdPytorchOptimizer(architecture.parameters(), 0.001, 0.001),
+                               MsePytorchLossFunction(), PytorchEarlyStopper(10, 0.01),
                                PytorchSaver("C:/Users/Joel/Desktop/test/"))
 
 Laboratory(10, dataset, architecture, [experiment]).explore()

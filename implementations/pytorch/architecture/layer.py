@@ -1,15 +1,13 @@
-import torch
-from torch import nn, Tensor
+from torch.nn import Module
+from torch import Tensor
 
 from framework.architecture.layer import Layer
 
 
-class PytorchLayer(Layer, nn.Module):
+class PytorchLayer(Module, Layer):
     def __init__(self):
-        super(PytorchLayer, self).__init__()
+        Module.__init__(self)
+        Layer.__init__(self)
 
     def forward(self, x: Tensor) -> Tensor:
         return self.layer(x)
-
-    def params(self):
-        print(self.parameters())
