@@ -11,7 +11,8 @@ class MsePytorchLossFunction(PytorchLossFunction):
         super(PytorchLossFunction, self).__init__()
         self.loss = MSELoss()
 
-    def compute(self, outputs: Tensor, targets: Tensor) -> Union[float, List[float]]:
+    def compute(self, outputs: Tensor, targets: Tensor, training: bool) -> Union[float, List[float]]:
         loss = self.loss(outputs, targets)
-        loss.backward()
+        if training:
+            loss.backward()
         return loss.item()

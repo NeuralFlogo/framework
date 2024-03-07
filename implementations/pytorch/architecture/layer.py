@@ -10,3 +10,6 @@ class PytorchLayer(Layer, nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         return self.layer(x)
+
+    def params(self):
+        print(self.parameters())

@@ -1,16 +1,16 @@
 from typing import List
 
 import torch
-from torch.utils.data import DataLoader
-
-from framework.toolbox.batch import Batch
-from framework.toolbox.dataset import Dataset
-from implementations.pytorch.toolbox.datasets.batch import PytorchBatch
 from PIL import Image
+from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
 
+from framework.toolbox.batch import Batch
+from implementations.pytorch.toolbox.datasets.batch import PytorchBatch
+from implementations.pytorch.toolbox.datasets.datasets.pytorch_dataset import PytorchDataset
 
-class PytorchImageDataset(Dataset, torch.utils.data.Dataset):
+
+class PytorchImageDataset(PytorchDataset, Dataset):
 
     def __init__(self, batch_size, images):
         super().__init__(batch_size)

@@ -1,15 +1,15 @@
 from typing import List
 
 import torch
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, Dataset
 
-from framework.toolbox.dataset import Dataset
 from implementations.pytorch.toolbox.datasets.batch import PytorchBatch
+from implementations.pytorch.toolbox.datasets.datasets.pytorch_dataset import PytorchDataset
 
 PREDICTION_COLUMN_NAME = "prediction"
 
 
-class PytorchNumericDataset(torch.utils.data.Dataset, Dataset):
+class PytorchNumericDataset(PytorchDataset, Dataset):
 
     def __init__(self, batch_size, pandas_dataset):
         super().__init__(batch_size)
@@ -22,7 +22,7 @@ class PytorchNumericDataset(torch.utils.data.Dataset, Dataset):
         row = self.__pandas_dataset.iloc[idx]
         prediction = row[PREDICTION_COLUMN_NAME]
         data = row.drop(columns=[PREDICTION_COLUMN_NAME])
-        return torch.tensor(data), torch.tensor(prediction)
+        return torch.tensor(data, dtype=torch.float32), torch.tensor(prediction, dtype=torch.float32)
 
     def batches(self) -> List[PytorchBatch]:
         batches = []

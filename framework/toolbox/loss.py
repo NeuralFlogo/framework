@@ -4,5 +4,5 @@ from typing import Union, List
 
 class LossFunction(ABC):
     @abstractmethod
-    def compute(self, predictions, targets) -> Union[float, List[float]]:
+    def compute(self, predictions, targets, training: bool) -> Union[float, List[float]]:
         pass

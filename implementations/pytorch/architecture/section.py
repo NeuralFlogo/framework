@@ -17,3 +17,7 @@ class PytorchSection(Module, Section):
         for block in self.blocks:
             x = block(x)
         return x
+
+    def params(self):
+        for block in self.blocks:
+            block.params()

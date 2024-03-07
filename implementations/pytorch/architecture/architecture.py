@@ -19,3 +19,8 @@ class PytorchArchitecture(Module, Architecture):
 
     def forward(self, x):
         return self.components(x)
+
+    def param(self):
+        for component in self.components:
+            if not isinstance(component, PytorchLayer):
+                component.params()

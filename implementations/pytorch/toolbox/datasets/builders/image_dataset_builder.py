@@ -4,13 +4,13 @@ from sklearn.model_selection import train_test_split
 from torch.utils.data import random_split
 
 from framework.toolbox.dataset import Dataset
-from framework.toolbox.dataset_builder import DatasetBuilder
+from framework.toolbox.dataset_builder import DatasetLoader
 from implementations.pytorch.toolbox.datasets.datasets.image_dataset import PytorchImageDataset
 
 IMAGE_DELIMITER = " "
 
 
-class PytorchImageDatasetBuilder(DatasetBuilder):
+class PytorchImageDatasetLoader(DatasetLoader):
 
     def __init__(self, path: string, batch_size: int, seed: int):
         super().__init__(path, batch_size, seed)

@@ -16,3 +16,7 @@ class PytorchBlock(Module, Block):
         for layer in self.layers:
             x = layer(x)
         return x
+
+    def params(self):
+        for layer in self.layers:
+            print(layer.params)
