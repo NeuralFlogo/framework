@@ -20,7 +20,7 @@ class DatasetLoader(ABC):
         pass
 
     @abstractmethod
-    def evaluation(self) -> 'Dataset':
+    def validation(self) -> 'Dataset':
         pass
 
     @abstractmethod

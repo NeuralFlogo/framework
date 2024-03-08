@@ -1,3 +1,4 @@
+from torch import Tensor
 from torch.nn import Module
 
 from framework.architecture.model import Model
@@ -15,5 +16,5 @@ class PytorchModel(Module, Model):
     def predict(self):
         pass
 
-    def eval(self):
-        return self.architecture.eval()
+    def forward(self, x: Tensor) -> Tensor:
+        return self.architecture(x)

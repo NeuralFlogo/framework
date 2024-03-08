@@ -13,8 +13,9 @@ from implementations.pytorch.toolbox.losses.mse import MsePytorchLossFunction
 from implementations.pytorch.toolbox.optimizers.sgd import SgdPytorchOptimizer
 from implementations.pytorch.toolbox.saver import PytorchSaver
 from implementations.pytorch.toolbox.stopper import PytorchEarlyStopper
+from implementations.pytorch.toolbox.strategies.regression import PytorchRegressionStrategy
 
-PATH = "C:/Users/Joel/Desktop/winequality-red.csv"
+PATH = "C:/Users/juanc/Downloads/winequality-red.csv"
 
 dataset = PytorchNumericDatasetLoader(PATH, 5, 42).build(0.6, 0.2, 0.2)
 
@@ -37,6 +38,8 @@ architecture = (PytorchArchitecture()
 
 experiment = PytorchExperiment(SgdPytorchOptimizer(architecture.parameters(), 0.001, 0.001),
                                MsePytorchLossFunction(), PytorchEarlyStopper(10, 0.01),
-                               PytorchSaver("C:/Users/Joel/Desktop/test/"))
+                               PytorchSaver("C:/Users/juanc/Downloads/folder"))
 
-Laboratory(10, dataset, architecture, [experiment]).explore()
+loss = Laboratory(30, dataset, architecture, [experiment], PytorchRegressionStrategy(MsePytorchLossFunction())).explore()
+
+print("The Lab loss is {}".format(loss))

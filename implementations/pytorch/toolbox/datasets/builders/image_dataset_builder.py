@@ -33,7 +33,7 @@ class PytorchImageDatasetLoader(DatasetLoader):
     def train(self) -> 'Dataset':
         return self.__datasets[0]
 
-    def evaluation(self) -> 'Dataset':
+    def validation(self) -> 'Dataset':
         return self.__datasets[1]
 
     def test(self) -> 'Dataset':

@@ -1,6 +1,5 @@
 import torch
 
-from framework.architecture.model import Model
 from framework.toolbox.experiment import Experiment
 from implementations.pytorch.architecture.architecture import PytorchArchitecture
 from implementations.pytorch.architecture.model import PytorchModel
@@ -13,33 +12,28 @@ from implementations.pytorch.toolbox.stopper import PytorchEarlyStopper
 
 class PytorchExperiment(Experiment):
     def __init__(self, optimizer: PytorchOptimizer, loss_function: PytorchLossFunction, stopper: PytorchEarlyStopper,
-                 checkpoint_saver: PytorchSaver):
-        super().__init__(optimizer, loss_function, stopper, checkpoint_saver)
+                 saver: PytorchSaver):
+        super().__init__(optimizer, loss_function, stopper, saver)
 
-    def run(self, epochs: int, training_dataset: PytorchDataset, eval_dataset: PytorchDataset, architecture: PytorchArchitecture):
+    def run(self, epochs: int, training_set: PytorchDataset, validation_set: PytorchDataset,
+            architecture: PytorchArchitecture):
         best_loss = float("inf")
         for epoch in range(epochs):
             print("-" * 25, 'Epoch {}'.format(epoch + 1), "-" * 29)
-            train_loss = self.__train(training_dataset, architecture)
-            valid_loss = self.__validate(eval_dataset, architecture)
+            train_loss = self.__train(training_set, architecture)
+            valid_loss = self.__validate(validation_set, architecture)
             if self.__is_checkpoint(valid_loss, best_loss):
-                self.saver.save(PytorchModel(architecture), self.optimizer)
-            if self.stopper.should_stop(valid_loss):
-                self.saver.save(PytorchModel(architecture), self.optimizer)
-                break
+                print("The model is improving from {} to {}.".format(best_loss, valid_loss))
+                best_loss = valid_loss
+            #     self.saver.save(PytorchModel(architecture), self.optimizer)
+            # if self.stopper.should_stop(valid_loss):
+            #     self.saver.save(PytorchModel(architecture), self.optimizer)
+            #     return best_loss, PytorchModel(architecture)
             print("-" * 59)
-            print('|\tEnd of Epoch {:3d} \t|\t Training Loss {:.4%} \t|\t Validation Loss {:.4%} \t|'.format(epoch + 1, train_loss, valid_loss))
+            print('|\tEnd of Epoch {:3d} \t|\t Training Loss {:.3f} \t|\t Validation Loss {:.3f} \t|'
+                  .format(epoch + 1, train_loss, valid_loss))
             print("-" * 59)
-        return best_loss, architecture
-
-    def test(self, dataset: PytorchDataset, model: PytorchModel) -> float:
-        model.eval()
-        loss = 0
-        with torch.no_grad():
-            for batch in dataset.batches():
-                outputs = model(batch.inputs())
-                loss += self.loss_function.compute(outputs, batch.targets())
-        return loss / len(dataset.batches())
+        return valid_loss, PytorchModel(architecture)
 
     def __train(self, dataset: PytorchDataset, architecture: PytorchArchitecture):
         loss = 0.

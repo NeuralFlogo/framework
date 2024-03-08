@@ -11,17 +11,12 @@ from framework.toolbox.stopper import EarlyStopper
 
 
 class Experiment(ABC):
-    def __init__(self, optimizer: Optimizer, loss_function: LossFunction, stopper: EarlyStopper,
-                 checkpoint_saver: CheckpointSaver):
+    def __init__(self, optimizer: Optimizer, loss_function: LossFunction, stopper: EarlyStopper, saver: CheckpointSaver):
         self.optimizer = optimizer
         self.loss_function = loss_function
         self.stopper = stopper
-        self.saver = checkpoint_saver
+        self.saver = saver
 
     @abstractmethod
-    def run(self, epochs: int, training_dataset: Dataset, eval_dataset: Dataset, architecture: Architecture) -> Tuple[Model, float]:
-        pass
-
-    @abstractmethod
-    def test(self, dataset: Dataset, model: Model) -> float:
+    def run(self, epochs: int, training_set: Dataset, validation_set: Dataset, architecture: Architecture) -> Tuple[float, Model]:
         pass
