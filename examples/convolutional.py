@@ -22,7 +22,7 @@ from implementations.pytorch.toolbox.optimizers.sgd import SgdPytorchOptimizer
 from implementations.pytorch.toolbox.saver import PytorchCheckpointSaver
 from implementations.pytorch.toolbox.strategies.classification import PytorchClassificationStrategy
 
-PATH = "C:/Users/juanc/Downloads/PetImages/PetImages"
+PATH = "C:/Users/Joel/Desktop/PetImages/"
 
 dataset = PytorchImageDatasetLoader(PATH, 53, 42).load(0.6, 0.2, 0.2)
 
@@ -51,7 +51,7 @@ experiment = PytorchExperiment("ConvolutionalExperiment",
                                SgdPytorchOptimizer(architecture.parameters(), 0.001, 0.001),
                                MsePytorchLossFunction(),
                                EarlyStopper(5, 0.1),
-                               PytorchCheckpointSaver("C:/Users/juanc/Downloads/folder/test.pt"))
+                               PytorchCheckpointSaver("C:/Users/Joel/Desktop/test/"))
 
 loss = (Laboratory(name="ConvolutionalLaboratory",
                    epochs=10,
@@ -59,7 +59,7 @@ loss = (Laboratory(name="ConvolutionalLaboratory",
                    architecture=architecture,
                    experiments=[experiment],
                    strategy=PytorchClassificationStrategy(),
-                   logger=PytorchLogger("C:/Users/juanc/Downloads/folder/result.tsv"))
+                   logger=PytorchLogger("C:/Users/Joel/Desktop/test/result.tsv"))
         .explore())
 
 print("The Lab loss is {}".format(loss))
