@@ -7,7 +7,7 @@ from framework.architecture.section import Section
 
 
 class Architecture(ABC):
-    def __init__(self, name: str = None):
+    def __init__(self, name: str = ""):
         self.name = name
 
     @abstractmethod

@@ -24,7 +24,7 @@ class Laboratory(ABC):
     def explore(self):
         self.logger.set_laboratory_name(self.name)
         performances = []
-        for era in range(self.eras):
+        for era in range(1, self.eras + 1):
             self.logger.set_era(era)
             for experiment in self.experiments:
                 performances.append(experiment.run(self.epochs,

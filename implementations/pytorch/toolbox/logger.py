@@ -12,6 +12,7 @@ class PytorchLogger(Logger):
         self.__check_file()
 
     def log_epoch(self, architecture: str, experiment: str, epoch: int, train_measurement: float, valid_measurement: float):
+        print("epoch")
         self.__write_lines(self.__create_line(architecture, experiment, epoch, "train", train_measurement))
         self.__write_lines(self.__create_line(architecture, experiment, epoch, "validation", valid_measurement))
 

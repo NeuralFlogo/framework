@@ -1,4 +1,4 @@
-from typing import Iterator
+from typing import Iterator, List
 
 from torch.nn import Parameter
 from torch.optim import SGD
@@ -11,8 +11,8 @@ class SgdPytorchOptimizer(PytorchOptimizer):
     def weights(self):
         return self.optimizer.state_dict()
 
-    def __init__(self, parameters: Iterator[Parameter], learning_rate: float, momentum: float, scheduler: PytorchScheduler = None):
-        super(SgdPytorchOptimizer, self).__init__(learning_rate, scheduler)
+    def __init__(self, parameters: Iterator[Parameter], learning_rate: float, momentum: float, schedulers: List[PytorchScheduler] = None):
+        super(SgdPytorchOptimizer, self).__init__(learning_rate, schedulers)
         self.optimizer = SGD(params=parameters, lr=learning_rate, momentum=momentum)
         self.optimizer.zero_grad()
 

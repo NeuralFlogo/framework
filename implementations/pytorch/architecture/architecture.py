@@ -9,7 +9,7 @@ from implementations.pytorch.architecture.section import PytorchSection
 
 
 class PytorchArchitecture(Module, Architecture):
-    def __init__(self, name):
+    def __init__(self, name: str = ""):
         Module.__init__(self)
         Architecture.__init__(self, name)
         self.components = Sequential()

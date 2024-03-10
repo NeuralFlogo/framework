@@ -21,17 +21,17 @@ class PytorchExperiment(Experiment):
     def run(self, epochs: int, training_set: PytorchDataset, validation_set: PytorchDataset,
             architecture: PytorchArchitecture, logger: PytorchLogger):
         best_loss = float("inf")
-        for epoch in range(epochs):
+        for epoch in range(1, epochs + 1):
             train_loss = self.__train(epoch, training_set, architecture, logger)
             valid_loss = self.__validate(validation_set, architecture)
+            logger.log_epoch(architecture.name, self.name, epoch, train_loss, valid_loss)
             if self.__is_checkpoint(valid_loss, best_loss):
-                print("The model is improving from {} to {}.".format(best_loss, valid_loss))
                 best_loss = valid_loss
                 self.saver.save(PytorchModel(architecture), self.optimizer)
+                continue
             if self.stopper.should_stop(valid_loss):
                 self.saver.save(PytorchModel(architecture), self.optimizer)
                 break
-            logger.log_epoch(architecture.name, self.name, epoch, train_loss, valid_loss)
         return valid_loss, PytorchModel(architecture)
 
     def __train(self, epoch: int, dataset: PytorchDataset, architecture: PytorchArchitecture, logger: PytorchLogger):
