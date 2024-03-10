@@ -1,6 +1,6 @@
 import torch
 
-from framework.toolbox.checkpoint_saver import CheckpointSaver
+from framework.toolbox.saver import CheckpointSaver
 from implementations.pytorch.architecture.architecture import PytorchArchitecture
 from implementations.pytorch.toolbox.optimizer import PytorchOptimizer
 

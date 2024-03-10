@@ -1,11 +1,10 @@
 import string
 
 from sklearn.model_selection import train_test_split
-from torch.utils.data import random_split
 
 from framework.toolbox.dataset import Dataset
-from framework.toolbox.dataset_builder import DatasetLoader
-from implementations.pytorch.toolbox.datasets.datasets.image_dataset import PytorchImageDataset
+from framework.toolbox.loader import DatasetLoader
+from implementations.pytorch.toolbox.datasets.image import PytorchImageDataset
 
 IMAGE_DELIMITER = " "
 
@@ -18,7 +17,7 @@ class PytorchImageDatasetLoader(DatasetLoader):
         self.__load()
         self.__datasets = None
 
-    def build(self, train_proportion: float, validation_proportion: float, test_proportion: float):
+    def load(self, train_proportion: float, validation_proportion: float, test_proportion: float):
         train_data, test_data = train_test_split(self.__images, test_size=test_proportion,
                                                  random_state=self.seed)
         train_data, val_data = train_test_split(train_data, test_size=validation_proportion, random_state=self.seed)

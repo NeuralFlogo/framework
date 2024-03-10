@@ -6,5 +6,5 @@ from framework.toolbox.dataset import Dataset
 
 class Strategy(ABC):
     @abstractmethod
-    def evaluate(self, test_set: Dataset, model: Model) -> float:
+    def evaluate(self, test_set: Dataset, model: Model):
         pass

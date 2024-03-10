@@ -1,11 +1,15 @@
-from abc import ABC, abstractmethod
-
-
-class EarlyStopper(ABC):
+class EarlyStopper:
     def __init__(self, patience: int, delta: float):
-        self.tolerance = patience
+        self.patience = patience
         self.delta = delta
+        self.history = [float("inf")] * (patience + 1)
 
-    @abstractmethod
     def should_stop(self, loss: float) -> bool:
-        pass
+        self.history.append(loss)
+        return self.__oldest_loss() - self.__lowest_loss() < self.delta
+
+    def __oldest_loss(self):
+        return self.history.pop(0)
+
+    def __lowest_loss(self):
+        return min(self.history)

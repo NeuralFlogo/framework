@@ -2,7 +2,7 @@ import torch
 
 from framework.toolbox.strategies.regression import RegressionStrategy
 from implementations.pytorch.architecture.model import PytorchModel
-from implementations.pytorch.toolbox.datasets.datasets.pytorch_dataset import PytorchDataset
+from implementations.pytorch.toolbox.dataset import PytorchDataset
 from implementations.pytorch.toolbox.loss import PytorchLossFunction
 
 

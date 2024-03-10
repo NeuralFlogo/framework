@@ -1,4 +1,3 @@
-from abc import abstractmethod
 from typing import Union, List
 
 from torch import Tensor
@@ -7,5 +6,5 @@ from framework.toolbox.loss import LossFunction
 
 
 class PytorchLossFunction(LossFunction):
-    def compute(self, predictions, targets, training: bool = False) -> Union[float, List[float]]:
+    def compute(self, predictions: Tensor, targets: Tensor, training: bool = False) -> Union[float, List[float]]:
         pass
