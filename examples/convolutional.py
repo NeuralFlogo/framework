@@ -12,26 +12,34 @@ from implementations.pytorch.architecture.layers.regularizations.batch_normaliza
     PytorchBidimensionalBatchNormalizationLayer, PytorchUnidimensionalBatchNormalizationLayer
 from implementations.pytorch.architecture.sections.convolutional import PytorchConvolutionalSection
 from implementations.pytorch.architecture.sections.linear import PytorchLinearSection
+from implementations.pytorch.toolbox.loaders.image import PytorchImageDatasetLoader
 
-architecture = (PytorchArchitecture()
-                .attach(PytorchConvolutionalSection(
-                            [PytorchConvolutionalBlock([
-                                 PytorchConvolutionalLayer(16, 33, 3, 2),
-                                 PytorchBidimensionalBatchNormalizationLayer(33, 0.5, 0.3),
-                                 PytorchReluLayer(),
-                                 PytorchMaxPoolingLayer(5, 4, 0)]),
-                            PytorchConvolutionalBlock([
-                                 PytorchConvolutionalLayer(33, 16, 3, 3),
-                                 PytorchBidimensionalBatchNormalizationLayer(16, 0.5, 0.3),
-                                 PytorchReluLayer(),
-                                 PytorchAveragePoolingLayer(3, 2, 1)])])
-                    )
-                .attach(PytorchFlattenLayer())
-                .attach(PytorchLinearSection([
-                            PytorchLinearBlock([
-                                PytorchLinearLayer(32, 20),
-                                PytorchUnidimensionalBatchNormalizationLayer(20, 0.5, 0.3),
-                                PytorchSoftmaxLayer(1)
-                            ])])
-                ))
+PATH = "C:/Users/Joel/Desktop/PetImages"
+
+dataset = PytorchImageDatasetLoader(PATH, 5, 42).load(0.6, 0.2, 0.2)
+
+for batch in dataset.train().batches():
+    print(batch.inputs())
+
+# architecture = (PytorchArchitecture()
+#                 .attach(PytorchConvolutionalSection(
+#                             [PytorchConvolutionalBlock([
+#                                  PytorchConvolutionalLayer(16, 33, 3, 2),
+#                                  PytorchBidimensionalBatchNormalizationLayer(33, 0.5, 0.3),
+#                                  PytorchReluLayer(),
+#                                  PytorchMaxPoolingLayer(5, 4, 0)]),
+#                             PytorchConvolutionalBlock([
+#                                  PytorchConvolutionalLayer(33, 16, 3, 3),
+#                                  PytorchBidimensionalBatchNormalizationLayer(16, 0.5, 0.3),
+#                                  PytorchReluLayer(),
+#                                  PytorchAveragePoolingLayer(3, 2, 1)])])
+#                     )
+#                 .attach(PytorchFlattenLayer())
+#                 .attach(PytorchLinearSection([
+#                             PytorchLinearBlock([
+#                                 PytorchLinearLayer(32, 20),
+#                                 PytorchUnidimensionalBatchNormalizationLayer(20, 0.5, 0.3),
+#                                 PytorchSoftmaxLayer(1)
+#                             ])])
+#                 ))
 
