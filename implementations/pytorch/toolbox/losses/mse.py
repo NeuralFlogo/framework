@@ -6,7 +6,7 @@ from torch.nn import MSELoss
 from implementations.pytorch.toolbox.loss import PytorchLossFunction
 
 
-class MsePytorchLossFunction(PytorchLossFunction):
+class PytorchMSELossFunction(PytorchLossFunction):
     def __init__(self):
         super(PytorchLossFunction, self).__init__()
         self.loss = MSELoss()

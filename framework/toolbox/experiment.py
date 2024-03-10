@@ -6,13 +6,13 @@ from framework.architecture.model import Model
 from framework.toolbox.dataset import Dataset
 from framework.toolbox.loss import LossFunction
 from framework.toolbox.optimizer import Optimizer
-from framework.toolbox.saver import CheckpointSaver
+from framework.toolbox.saver import ModelSaver
 from framework.toolbox.logger import Logger
 from framework.toolbox.stopper import EarlyStopper
 
 
 class Experiment(ABC):
-    def __init__(self, name: str, optimizer: Optimizer, loss_function: LossFunction, stopper: EarlyStopper, saver: CheckpointSaver):
+    def __init__(self, name: str, optimizer: Optimizer, loss_function: LossFunction, stopper: EarlyStopper, saver: ModelSaver):
         self.name = name
         self.optimizer = optimizer
         self.loss_function = loss_function

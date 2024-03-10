@@ -2,7 +2,7 @@ from framework.toolbox.laboratory import Laboratory
 from framework.toolbox.stopper import EarlyStopper
 from implementations.pytorch.architecture.architecture import PytorchArchitecture
 from implementations.pytorch.architecture.blocks.linear import PytorchLinearBlock
-from implementations.pytorch.architecture.layers.activations.relu import PytorchReluLayer
+from implementations.pytorch.architecture.layers.activations.relu import PytorchReLULayer
 from implementations.pytorch.architecture.layers.linear import PytorchLinearLayer
 from implementations.pytorch.architecture.layers.regularizations.batch_normalization import \
     PytorchUnidimensionalBatchNormalizationLayer
@@ -10,9 +10,9 @@ from implementations.pytorch.architecture.layers.regularizations.dropout import 
 from implementations.pytorch.architecture.sections.linear import PytorchLinearSection
 from implementations.pytorch.toolbox.loaders.numeric import PytorchNumericDatasetLoader
 from implementations.pytorch.toolbox.experiment import PytorchExperiment
-from implementations.pytorch.toolbox.losses.mse import MsePytorchLossFunction
-from implementations.pytorch.toolbox.optimizers.sgd import SgdPytorchOptimizer
-from implementations.pytorch.toolbox.saver import PytorchCheckpointSaver
+from implementations.pytorch.toolbox.losses.mse import PytorchMSELossFunction
+from implementations.pytorch.toolbox.optimizers.sgd import PytorchSGDOptimizer
+from implementations.pytorch.toolbox.saver import PytorchModelSaver
 from implementations.pytorch.toolbox.logger import PytorchLogger
 from implementations.pytorch.toolbox.strategies.regression import PytorchRegressionStrategy
 
@@ -25,30 +25,30 @@ architecture = (PytorchArchitecture("LinearArchitecture")
                         [PytorchLinearBlock([
                             PytorchLinearLayer(12, 30),
                             PytorchUnidimensionalBatchNormalizationLayer(30, 0.5, 0.3),
-                            PytorchReluLayer(),
+                            PytorchReLULayer(),
                             PytorchDropoutLayer(0.5)]),
                             PytorchLinearBlock([
                                 PytorchLinearLayer(30, 10),
                                 PytorchUnidimensionalBatchNormalizationLayer(10, 0.5, 0.5),
-                                PytorchReluLayer(),
+                                PytorchReLULayer(),
                                 PytorchDropoutLayer(0.4)]),
                             PytorchLinearBlock([
                                 PytorchLinearLayer(10, 1),
-                                PytorchReluLayer()])
+                                PytorchReLULayer()])
                         ])))
 
 experiment = PytorchExperiment("TestingExperiment",
-                               SgdPytorchOptimizer(architecture.parameters(), 0.001, 0.001),
-                               MsePytorchLossFunction(),
+                               PytorchSGDOptimizer(architecture.parameters(), 0.001, 0.001),
+                               PytorchMSELossFunction(),
                                EarlyStopper(10, 0.01),
-                               PytorchCheckpointSaver("C:/Users/juanc/Downloads/folder/test.pt"))
+                               PytorchModelSaver("C:/Users/juanc/Downloads/folder/test.pt"))
 
 loss = (Laboratory(name="TestingLaboratory",
                    epochs=10,
                    dataset=dataset,
                    architecture=architecture,
                    experiments=[experiment],
-                   strategy=PytorchRegressionStrategy(MsePytorchLossFunction()),
+                   strategy=PytorchRegressionStrategy(PytorchMSELossFunction()),
                    logger=PytorchLogger("C:/Users/juanc/Downloads/folder/result.tsv"))
         .explore())
 

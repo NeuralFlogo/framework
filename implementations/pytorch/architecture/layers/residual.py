@@ -3,7 +3,7 @@ from torch.nn import Sequential
 
 from framework.architecture.layers.residual import ResidualLayer
 from implementations.pytorch.architecture.layer import PytorchLayer
-from implementations.pytorch.architecture.layers.activations.relu import PytorchReluLayer
+from implementations.pytorch.architecture.layers.activations.relu import PytorchReLULayer
 from implementations.pytorch.architecture.layers.convolutional import PytorchConvolutionalLayer
 from implementations.pytorch.architecture.layers.regularizations.batch_normalization import \
     PytorchBidimensionalBatchNormalizationLayer
@@ -14,7 +14,7 @@ class PytorchResidualLayer(PytorchLayer, ResidualLayer):
         super(PytorchResidualLayer, self).__init__()
         self.conv1 = PytorchConvolutionalLayer(in_channels, out_channels, kernel=3, stride=stride, padding=1)
         self.bn1 = PytorchBidimensionalBatchNormalizationLayer(out_channels)
-        self.relu = PytorchReluLayer(inplace=True)
+        self.relu = PytorchReLULayer(inplace=True)
         self.conv2 = PytorchConvolutionalLayer(out_channels, out_channels, kernel=3, stride=1, padding=1)
         self.bn2 = PytorchBidimensionalBatchNormalizationLayer(out_channels)
         self.shortcut = self.__build_skip_connection(in_channels, out_channels, stride)

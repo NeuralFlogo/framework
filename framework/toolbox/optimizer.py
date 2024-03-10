@@ -16,3 +16,8 @@ class Optimizer(ABC):
     @abstractmethod
     def weights(self):
         pass
+
+    def refine_learning(self):
+        if self.schedulers:
+            for scheduler in self.schedulers:
+                scheduler.move()

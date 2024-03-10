@@ -10,8 +10,8 @@ from framework.toolbox.strategy import Strategy
 
 
 class Laboratory(ABC):
-    def __init__(self, name: str, epochs: int, dataset: DatasetLoader, architecture: Architecture, experiments: List[Experiment],
-                 strategy: Strategy, logger: Logger, eras: int = 1):
+    def __init__(self, name: str, epochs: int, dataset: DatasetLoader, architecture: Architecture,
+                 experiments: List[Experiment], strategy: Strategy, logger: Logger, eras: int = 1):
         self.name = name
         self.eras = eras
         self.epochs = epochs
@@ -20,9 +20,9 @@ class Laboratory(ABC):
         self.experiments = experiments
         self.strategy = strategy
         self.logger = logger
+        self.logger.set_laboratory_name(self.name)
 
     def explore(self):
-        self.logger.set_laboratory_name(self.name)
         performances = []
         for era in range(1, self.eras + 1):
             self.logger.set_era(era)
@@ -32,8 +32,7 @@ class Laboratory(ABC):
                                                    self.dataset.validation(),
                                                    self.architecture,
                                                    self.logger))
-        return self.strategy.evaluate(self.dataset.test(),
-                                      self.__best_model(performances)) #TODO Log the test results
+        return self.strategy.evaluate(self.dataset.test(), self.__best_model(performances)) #TODO Log the test results
 
     def __best_model(self, performances: List[Tuple[float, Model]]) -> Model:
         return performances[performances.index(min(performances, key=lambda x: x[0]))][1]

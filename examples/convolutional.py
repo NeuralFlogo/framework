@@ -3,7 +3,7 @@ from framework.toolbox.stopper import EarlyStopper
 from implementations.pytorch.architecture.architecture import PytorchArchitecture
 from implementations.pytorch.architecture.blocks.convolutional import PytorchConvolutionalBlock
 from implementations.pytorch.architecture.blocks.linear import PytorchLinearBlock
-from implementations.pytorch.architecture.layers.activations.relu import PytorchReluLayer
+from implementations.pytorch.architecture.layers.activations.relu import PytorchReLULayer
 from implementations.pytorch.architecture.layers.activations.softmax import PytorchSoftmaxLayer
 from implementations.pytorch.architecture.layers.convolutional import PytorchConvolutionalLayer
 from implementations.pytorch.architecture.layers.flatten import PytorchFlattenLayer
@@ -17,9 +17,9 @@ from implementations.pytorch.architecture.sections.linear import PytorchLinearSe
 from implementations.pytorch.toolbox.experiment import PytorchExperiment
 from implementations.pytorch.toolbox.loaders.image import PytorchImageDatasetLoader
 from implementations.pytorch.toolbox.logger import PytorchLogger
-from implementations.pytorch.toolbox.losses.mse import MsePytorchLossFunction
-from implementations.pytorch.toolbox.optimizers.sgd import SgdPytorchOptimizer
-from implementations.pytorch.toolbox.saver import PytorchCheckpointSaver
+from implementations.pytorch.toolbox.losses.mse import PytorchMSELossFunction
+from implementations.pytorch.toolbox.optimizers.sgd import PytorchSGDOptimizer
+from implementations.pytorch.toolbox.saver import PytorchModelSaver
 from implementations.pytorch.toolbox.strategies.classification import PytorchClassificationStrategy
 
 PATH = "C:/Users/juanc/Downloads/PetImages/PetImages/"
@@ -31,12 +31,12 @@ architecture = (PytorchArchitecture("Convolutional")
                             [PytorchConvolutionalBlock([
                                  PytorchConvolutionalLayer(3, 33, 3, 2),
                                  PytorchBidimensionalBatchNormalizationLayer(33, 0.5, 0.3),
-                                 PytorchReluLayer(),
+                                 PytorchReLULayer(),
                                  PytorchMaxPoolingLayer(5, 4, 0)]),
                             PytorchConvolutionalBlock([
                                  PytorchConvolutionalLayer(33, 16, 3, 3),
                                  PytorchBidimensionalBatchNormalizationLayer(16, 0.5, 0.3),
-                                 PytorchReluLayer(),
+                                 PytorchReLULayer(),
                                  PytorchAveragePoolingLayer(3, 2, 1)])])
                     )
                 .attach(PytorchFlattenLayer())
@@ -48,10 +48,10 @@ architecture = (PytorchArchitecture("Convolutional")
                 ))
 
 experiment = PytorchExperiment("ConvolutionalExperiment",
-                               SgdPytorchOptimizer(architecture.parameters(), 0.001, 0.001),
-                               MsePytorchLossFunction(),
+                               PytorchSGDOptimizer(architecture.parameters(), 0.001, 0.001),
+                               PytorchMSELossFunction(),
                                EarlyStopper(5, 0.1),
-                               PytorchCheckpointSaver("C:/Users/juanc/Downloads/folder/"))
+                               PytorchModelSaver("C:/Users/juanc/Downloads/folder/"))
 
 loss = (Laboratory(name="ConvolutionalLaboratory",
                    epochs=10,

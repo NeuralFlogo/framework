@@ -3,7 +3,7 @@ import os
 
 import torch
 
-from framework.toolbox.saver import CheckpointSaver
+from framework.toolbox.saver import ModelSaver
 from implementations.pytorch.architecture.architecture import PytorchArchitecture
 from implementations.pytorch.toolbox.optimizer import PytorchOptimizer
 
@@ -13,7 +13,7 @@ JSON_FILENAME = "checkpoint.json"
 CHECKPOINT_FOLDER = "model_checkpoint"
 
 
-class PytorchCheckpointSaver(CheckpointSaver):
+class PytorchModelSaver(ModelSaver):
     def __init__(self, root: str):
         self.__checkpoint_counter = 0
         self.root = root
