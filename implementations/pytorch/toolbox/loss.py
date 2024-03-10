@@ -7,10 +7,9 @@ from framework.toolbox.loss import LossFunction
 
 
 class PytorchLossFunction(LossFunction):
-
-    def __check_predictions(self, predictions: Tensor):
+    def check_predictions(self, predictions: Tensor):
         if predictions.shape[1] == 1:
-            return torch.squeeze(predictions)
+            return torch.squeeze(predictions, dim=1)
         return predictions
 
     def compute(self, predictions: Tensor, targets: Tensor, training: bool = False) -> Union[float, List[float]]:

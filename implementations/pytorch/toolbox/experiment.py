@@ -28,7 +28,6 @@ class PytorchExperiment(Experiment):
             if self.__is_checkpoint(valid_loss, best_loss):
                 best_loss = valid_loss
                 self.saver.save(PytorchModel(architecture), self.optimizer)
-                continue
             if self.stopper.should_stop(valid_loss):
                 self.saver.save(PytorchModel(architecture), self.optimizer)
                 break

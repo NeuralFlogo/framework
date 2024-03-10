@@ -12,7 +12,7 @@ class MsePytorchLossFunction(PytorchLossFunction):
         self.loss = MSELoss()
 
     def compute(self, predictions: Tensor, targets: Tensor, training: bool = False) -> Union[float, List[float]]:
-        predictions = self.__check_predictions(predictions)
+        predictions = self.check_predictions(predictions)
         loss = self.loss(predictions, targets)
         if training:
             loss.backward()

@@ -2,7 +2,7 @@ class EarlyStopper:
     def __init__(self, patience: int, delta: float):
         self.patience = patience
         self.delta = delta
-        self.history = [float("inf")] * (patience + 1)
+        self.history = [float("inf")] * patience
 
     def should_stop(self, loss: float) -> bool:
         self.history.append(loss)

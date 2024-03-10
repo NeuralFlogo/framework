@@ -11,7 +11,7 @@ from implementations.pytorch.architecture.layers.linear import PytorchLinearLaye
 from implementations.pytorch.architecture.layers.poolings.average import PytorchAveragePoolingLayer
 from implementations.pytorch.architecture.layers.poolings.max import PytorchMaxPoolingLayer
 from implementations.pytorch.architecture.layers.regularizations.batch_normalization import \
-    PytorchBidimensionalBatchNormalizationLayer, PytorchUnidimensionalBatchNormalizationLayer
+    PytorchBidimensionalBatchNormalizationLayer
 from implementations.pytorch.architecture.sections.convolutional import PytorchConvolutionalSection
 from implementations.pytorch.architecture.sections.linear import PytorchLinearSection
 from implementations.pytorch.toolbox.experiment import PytorchExperiment
@@ -22,7 +22,7 @@ from implementations.pytorch.toolbox.optimizers.sgd import SgdPytorchOptimizer
 from implementations.pytorch.toolbox.saver import PytorchCheckpointSaver
 from implementations.pytorch.toolbox.strategies.classification import PytorchClassificationStrategy
 
-PATH = "C:/Users/Joel/Desktop/PetImages/"
+PATH = "C:/Users/juanc/Downloads/PetImages/PetImages/"
 
 dataset = PytorchImageDatasetLoader(PATH, 53, 42).load(0.6, 0.2, 0.2)
 
@@ -51,7 +51,7 @@ experiment = PytorchExperiment("ConvolutionalExperiment",
                                SgdPytorchOptimizer(architecture.parameters(), 0.001, 0.001),
                                MsePytorchLossFunction(),
                                EarlyStopper(5, 0.1),
-                               PytorchCheckpointSaver("C:/Users/Joel/Desktop/test/"))
+                               PytorchCheckpointSaver("C:/Users/juanc/Downloads/folder/"))
 
 loss = (Laboratory(name="ConvolutionalLaboratory",
                    epochs=10,
@@ -59,7 +59,9 @@ loss = (Laboratory(name="ConvolutionalLaboratory",
                    architecture=architecture,
                    experiments=[experiment],
                    strategy=PytorchClassificationStrategy(),
-                   logger=PytorchLogger("C:/Users/Joel/Desktop/test/result.tsv"))
+                   logger=PytorchLogger("C:/Users/juanc/Downloads/folder/result.tsv"))
         .explore())
 
+print("Predicted", loss[0])
+print("Actual", loss[1])
 print("The Lab loss is {}".format(loss))
