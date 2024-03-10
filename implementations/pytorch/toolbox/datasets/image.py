@@ -23,7 +23,7 @@ class PytorchImageDataset(PytorchDataset, Dataset):
         image = self.__images[idx]
         image_path, label = image[0], image[1]
         image = Image.open(image_path)
-        return self.__tensor_transformer(image), torch.tensor(label)
+        return self.__tensor_transformer(image), torch.tensor(label, dtype=torch.float32)
 
     def batches(self) -> List[PytorchDataset.PytorchBatch]:
         batches = []
