@@ -5,7 +5,7 @@ from torch import nn
 from implementations.pytorch.architecture.layers.pool import PytorchPoolingLayer
 
 
-class PytorchAveragePoolingLayer(PytorchPoolingLayer):
+class PytorchAvgPoolLayer(PytorchPoolingLayer):
     def __init__(self, kernel: Union[int, Tuple[int, int]], stride: Union[int, Tuple[int, int]] = None, padding: Union[int, Tuple[int, int]] = 0):
-        super(PytorchAveragePoolingLayer, self).__init__()
+        super(PytorchAvgPoolLayer, self).__init__()
         self.layer = nn.AvgPool2d(kernel_size=kernel, stride=stride, padding=padding)

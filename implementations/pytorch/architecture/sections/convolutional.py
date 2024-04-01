@@ -1,9 +1,10 @@
 from typing import List
 
-from implementations.pytorch.architecture.blocks.convolutional import PytorchConvolutionalBlock
+from framework.architecture.sections.convolutional import ConvolutionalSection
+from implementations.pytorch.architecture.block import PytorchBlock
 from implementations.pytorch.architecture.section import PytorchSection
 
 
-class PytorchConvolutionalSection(PytorchSection):
-    def __init__(self, blocks: List[PytorchConvolutionalBlock]):
+class PytorchConvolutionalSection(PytorchSection, ConvolutionalSection):
+    def __init__(self, blocks: List[PytorchBlock]):
         super(PytorchConvolutionalSection, self).__init__(blocks)
