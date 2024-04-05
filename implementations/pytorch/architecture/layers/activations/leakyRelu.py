@@ -4,6 +4,6 @@ from implementations.pytorch.architecture.layers.activation import PytorchActiva
 
 
 class PytorchLeakyReLULayer(PytorchActivationLayer):
-    def __init__(self):
+    def __init__(self, negative_slope: float = 0.01):
         super(PytorchLeakyReLULayer, self).__init__()
-        self.layer = nn.LeakyReLU()
+        self.layer = nn.LeakyReLU(negative_slope=negative_slope)

@@ -1,12 +1,8 @@
 from abc import ABC, abstractmethod
-from typing import List
-
-from framework.toolbox.scheduler import Scheduler
 
 
 class Optimizer(ABC):
-    def __init__(self, learning_rate: float, schedulers: List[Scheduler] = None):
-        self.schedulers = schedulers
+    def __init__(self, learning_rate: float):
         self.learning_rate = learning_rate
 
     @abstractmethod
@@ -16,8 +12,3 @@ class Optimizer(ABC):
     @abstractmethod
     def weights(self):
         pass
-
-    def refine_learning(self):
-        if self.schedulers:
-            for scheduler in self.schedulers:
-                scheduler.move()

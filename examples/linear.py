@@ -2,7 +2,7 @@ from implementations.pytorch.architecture.architecture import PytorchArchitectur
 from implementations.pytorch.architecture.block import PytorchBlock as Block
 from implementations.pytorch.architecture.sections.linear import PytorchLinearSection as LinearSection
 from implementations.pytorch.architecture.layers.linear import PytorchLinearLayer as LinearLayer
-from implementations.pytorch.architecture.layers.regularizations.batch_normalization import PytorchUnidimensionalBatchNormalizationLayer as UnidimensionalBatchNormalizationLayer
+from implementations.pytorch.architecture.layers.regularizations.batch_norm import PytorchUnidimensionalBatchNormalizationLayer as UnidimensionalBatchNormalizationLayer
 from implementations.pytorch.architecture.layers.activations.relu import PytorchReLULayer as ReLULayer
 from implementations.pytorch.architecture.layers.regularizations.dropout import PytorchDropoutLayer as DropoutLayer
 

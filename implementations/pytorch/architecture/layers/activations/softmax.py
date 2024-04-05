@@ -6,4 +6,4 @@ from implementations.pytorch.architecture.layers.activation import PytorchActiva
 class PytorchSoftmaxLayer(PytorchActivationLayer):
     def __init__(self, n_dimensions: int):
         super(PytorchSoftmaxLayer, self).__init__()
-        self.layer = nn.Softmax(dim=n_dimensions)
+        self.layer = nn.LogSoftmax(dim=n_dimensions)
