@@ -19,7 +19,7 @@ class Logger:
 
     def log_epoch(self, architecture: str, experiment: str, epoch: int, train_measurement: float, valid_measurement: float):
         self.__write_lines(self.__create_line(architecture, experiment, "train", str(train_measurement), str(epoch)))
-        self.__write_lines(self.__create_line(architecture, experiment, "train", str(valid_measurement), str(epoch)))
+        self.__write_lines(self.__create_line(architecture, experiment, "validation", str(valid_measurement), str(epoch)))
 
     def log_batch(self, architecture: str, experiment: str, epoch: int, batch: int, measurement: float):
         self.__write_lines(self.__create_line(architecture, experiment, "train", str(measurement), str(epoch), str(batch)))
