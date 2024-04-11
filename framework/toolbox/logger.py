@@ -24,8 +24,8 @@ class Logger:
     def log_batch(self, architecture: str, experiment: str, epoch: int, batch: int, measurement: float):
         self.__write_lines(self.__create_line(architecture, experiment, "train", str(measurement), str(epoch), str(batch)))
 
-    def log_test(self, architecture: str, experiment: str, measurement: float):
-        self.__write_lines(self.__create_line(architecture, experiment, "test", str(measurement)))
+    def log_test(self, architecture: str, experiment: str, type_measurement: str, measurement: float):
+        self.__write_lines(self.__create_line(architecture, experiment, "test-" + type_measurement, str(measurement)))
 
     def __write_lines(self, line: str):
         with open(self.path, 'a') as file:
