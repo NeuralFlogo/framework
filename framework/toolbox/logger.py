@@ -18,20 +18,23 @@ class Logger:
         self.era = era
 
     def log_epoch(self, architecture: str, experiment: str, epoch: int, train_measurement: float, valid_measurement: float):
-        self.__write_lines(self.__create_line(architecture, experiment, epoch, "train", train_measurement))
-        self.__write_lines(self.__create_line(architecture, experiment, epoch, "validation", valid_measurement))
+        self.__write_lines(self.__create_line(architecture, experiment, "train", str(train_measurement), str(epoch)))
+        self.__write_lines(self.__create_line(architecture, experiment, "train", str(valid_measurement), str(epoch)))
 
     def log_batch(self, architecture: str, experiment: str, epoch: int, batch: int, measurement: float):
-        self.__write_lines(self.__create_line(architecture, experiment, epoch, "train", measurement, str(batch)))
+        self.__write_lines(self.__create_line(architecture, experiment, "train", str(measurement), str(epoch), str(batch)))
+
+    def log_test(self, architecture: str, experiment: str, measurement: float):
+        self.__write_lines(self.__create_line(architecture, experiment, "test", str(measurement)))
 
     def __write_lines(self, line: str):
         with open(self.path, 'a') as file:
             file.write(line + "\n")
 
-    def __create_line(self, architecture: str, experiment: str, epoch: int, mode: str, loss: float, batch=""):
+    def __create_line(self, architecture: str, experiment: str, mode: str, loss: str, epoch="", batch=""):
         return (architecture + FIELD_DELIMITER + self.laboratory + FIELD_DELIMITER + experiment + FIELD_DELIMITER
-                + str(self.era) + FIELD_DELIMITER + str(epoch) + FIELD_DELIMITER + batch + FIELD_DELIMITER
-                + mode + FIELD_DELIMITER + str(loss))
+                + str(self.era) + FIELD_DELIMITER + epoch + FIELD_DELIMITER + batch + FIELD_DELIMITER
+                + mode + FIELD_DELIMITER + loss)
 
     def __check_file(self):
         if self.__write_header():

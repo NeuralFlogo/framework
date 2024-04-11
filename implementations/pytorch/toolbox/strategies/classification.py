@@ -1,12 +1,13 @@
 import torch
 
+from framework.toolbox.logger import Logger
 from framework.toolbox.strategies.classification import ClassificationStrategy
 from implementations.pytorch.architecture.model import PytorchModel
 from implementations.pytorch.toolbox.dataset import PytorchDataset
 
 
 class PytorchClassificationStrategy(ClassificationStrategy):
-    def evaluate(self, test_set: PytorchDataset, model: PytorchModel):
+    def evaluate(self, test_set: PytorchDataset, model: PytorchModel, architecture_name: str, experiment_name: str, logger: Logger):
         model.eval()
         predictions, targets = [], []
         with torch.no_grad():

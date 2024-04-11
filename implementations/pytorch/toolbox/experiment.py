@@ -27,9 +27,9 @@ class PytorchExperiment(Experiment):
             logger.log_epoch(architecture.name, self.name, epoch, train_loss, valid_loss)
             if self.__is_checkpoint(valid_loss):
                 self.best_loss = valid_loss
-                self.saver.save(PytorchModel(architecture), self.optimizer)
+                self.saver.save(PytorchModel(architecture), self)
             if self.stopper.should_stop(valid_loss):
-                self.saver.save(PytorchModel(architecture), self.optimizer)
+                self.saver.save(PytorchModel(architecture), self)
                 break
         return valid_loss, PytorchModel(architecture)
 
@@ -41,7 +41,7 @@ class PytorchExperiment(Experiment):
             running_loss += self.loss_function.compute(outputs, batch.targets(), True)
             self.optimizer.move()
             if i % BATCH_TO_SAVE == 0:
-                logger.log_batch(epoch, i, architecture.name, self.__get_batch_loss(running_loss, last_loss))
+                logger.log_batch(architecture.name, self.name, epoch, i, self.__get_batch_loss(running_loss, last_loss))
                 last_loss = running_loss
         architecture.train(False)
         return running_loss / len(dataset.batches())

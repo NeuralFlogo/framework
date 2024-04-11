@@ -18,6 +18,7 @@ class PytorchImageDatasetLoader(DatasetLoader):
         self.__images = []
         self.__datasets = []
         self.__load()
+        self.__num_classes = self.__get_num_classes()
 
     def load(self, train_proportion: float, validation_proportion: float, test_proportion: float):
         self.__shuffle()
@@ -30,7 +31,7 @@ class PytorchImageDatasetLoader(DatasetLoader):
         return self
 
     def __create_dataset(self, images):
-        return PytorchImageDataset(self.batch_size, images)
+        return PytorchImageDataset(self.batch_size, images).set_num_classes(self.__num_classes)
 
     def train(self) -> 'Dataset':
         return self.__datasets[0]
@@ -43,8 +44,12 @@ class PytorchImageDatasetLoader(DatasetLoader):
 
     def __load(self):
         with open(self.path + DATASET_FILENAME, "r") as file:
+            header = True
             for line in file:
-                self.__process_line(line)
+                if header:
+                    header = False
+                else:
+                    self.__process_line(line)
 
     def __process_line(self, line):
         split_line = line.split(IMAGE_DELIMITER)
@@ -53,3 +58,6 @@ class PytorchImageDatasetLoader(DatasetLoader):
     def __shuffle(self):
         random.seed(self.seed)
         random.shuffle(self.__images)
+
+    def __get_num_classes(self):
+        return len(set([label[1] for label in self.__images]))
