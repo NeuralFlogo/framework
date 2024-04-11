@@ -1,5 +1,6 @@
 from typing import List
 
+import numpy as np
 import torch
 from torch.utils.data import DataLoader, Dataset
 
@@ -19,8 +20,8 @@ class PytorchNumericDataset(PytorchDataset, Dataset):
     def __getitem__(self, idx):
         row = self.__pandas_dataset.iloc[idx]
         prediction = row[PREDICTION_COLUMN_NAME]
-        data = row.drop(columns=[PREDICTION_COLUMN_NAME])
-        return torch.tensor(data, dtype=torch.float32), torch.tensor(prediction, dtype=torch.float32)
+        data = row.drop(PREDICTION_COLUMN_NAME)
+        return torch.tensor(np.array(data), dtype=torch.float32), torch.tensor(prediction, dtype=torch.float32)
 
     def batches(self) -> List[PytorchDataset.PytorchBatch]:
         batches = []

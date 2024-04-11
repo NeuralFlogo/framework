@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 
 from framework.toolbox.dataset import Dataset
 from framework.toolbox.loader import DatasetLoader
-from implementations.pytorch.toolbox.datasets.image import PytorchImageDataset
+from implementations.pytorch.toolbox.datasets.datasets.image import PytorchImageDataset
 
 IMAGE_DELIMITER = "\t"
 DATASET_FILENAME = "/dataset.txt"
