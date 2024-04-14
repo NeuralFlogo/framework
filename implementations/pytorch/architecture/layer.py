@@ -1,7 +1,5 @@
-from typing import Tuple
-
-from torch.nn import Module
 from torch import Tensor
+from torch.nn import Module
 
 from framework.architecture.layer import Layer
 
@@ -11,5 +9,5 @@ class PytorchLayer(Module, Layer):
         Module.__init__(self)
         Layer.__init__(self)
 
-    def forward(self, x: Tensor) -> Tensor | Tuple[Tensor]:
+    def forward(self, x: Tensor) -> Tensor:
         return self.layer(x)

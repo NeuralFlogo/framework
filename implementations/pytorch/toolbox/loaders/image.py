@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 
 from framework.toolbox.dataset import Dataset
 from framework.toolbox.loader import DatasetLoader
-from implementations.pytorch.toolbox.datasets.datasets.image import PytorchImageDataset
+from implementations.pytorch.toolbox.datasets.image import PytorchImageDataset
 
 IMAGE_DELIMITER = "\t"
 DATASET_FILENAME = "/dataset.txt"
@@ -22,8 +22,7 @@ class PytorchImageDatasetLoader(DatasetLoader):
 
     def load(self, train_proportion: float, validation_proportion: float, test_proportion: float):
         self.__shuffle()
-        train_data, test_data = train_test_split(self.__images, test_size=test_proportion,
-                                                 random_state=self.seed)
+        train_data, test_data = train_test_split(self.__images, test_size=test_proportion, random_state=self.seed)
         train_data, val_data = train_test_split(train_data, test_size=validation_proportion, random_state=self.seed)
         self.__datasets.append(self.__create_dataset(train_data))
         self.__datasets.append(self.__create_dataset(val_data))
@@ -31,7 +30,7 @@ class PytorchImageDatasetLoader(DatasetLoader):
         return self
 
     def __create_dataset(self, images):
-        return PytorchImageDataset(self.batch_size, images).set_num_classes(self.__num_classes)
+        return PytorchImageDataset(self.batch_size, images)
 
     def train(self) -> 'Dataset':
         return self.__datasets[0]

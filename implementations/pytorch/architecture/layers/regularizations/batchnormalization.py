@@ -4,15 +4,12 @@ from implementations.pytorch.architecture.layers.regularization import PytorchRe
 
 
 class Pytorch1DimensionalBatchNormalizationLayer(PytorchRegularizationLayer):
-    def __init__(self, num_features: int, eps: float = 1e-5, momentum: float = 0.1):
+    def __init__(self, num_features: int, eps: float, momentum: float):
         super(Pytorch1DimensionalBatchNormalizationLayer, self).__init__()
         self.layer = nn.BatchNorm1d(num_features=num_features, eps=eps, momentum=momentum, )
 
     def forward(self, x: Tensor) -> Tensor:
-        if x.size(0) == 1:
-            return x
-        else:
-            return self.layer(x)
+        return x if x.size(0) == 1 else self.layer(x)
 
 
 class Pytorch2DimensionalBatchNormalizationLayer(PytorchRegularizationLayer):

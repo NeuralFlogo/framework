@@ -21,15 +21,17 @@ class PytorchExperiment(Experiment):
 
     def run(self, epochs: int, training_set: PytorchDataset, validation_set: PytorchDataset,
             architecture: PytorchArchitecture, logger: Logger):
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        architecture.to(device)
         for epoch in range(1, epochs + 1):
             train_loss = self.__train(epoch, training_set, architecture, logger)
             valid_loss = self.__validate(validation_set, architecture)
             logger.log_epoch(architecture.name, self.name, epoch, train_loss, valid_loss)
             if self.__is_checkpoint(valid_loss):
                 self.best_loss = valid_loss
-                self.saver.save(PytorchModel(architecture), self)
+                self.saver.save(PytorchModel(architecture), self.optimizer)
             if self.stopper.should_stop(valid_loss):
-                self.saver.save(PytorchModel(architecture), self)
+                self.saver.save(PytorchModel(architecture), self.optimizer)
                 break
         return valid_loss, PytorchModel(architecture)
 

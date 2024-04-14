@@ -16,8 +16,9 @@ class PytorchClassificationStrategy(ClassificationStrategy):
                 outputs = model(batch.inputs())
                 predictions.extend(outputs.argmax(1).tolist())
                 targets.extend(batch.targets().tolist())
-        return self.__compute_accuracy(np.array(predictions), np.array(targets))
+        return self.__compute_accuracy(predictions, targets)
 
     def __compute_accuracy(self, predictions, targets) -> float:
-        return np.sum(np.all(predictions == targets, axis=1)) / len(predictions)
+        correct = len([1 for prediction, target in zip(predictions, targets) if prediction == target])
+        return correct / len(predictions)
 

@@ -13,8 +13,8 @@ class PytorchModel(Module, Model):
     def weights(self):
         return self.architecture.state_dict()
 
-    def predict(self):
-        pass
+    def predict(self, x: Tensor) -> Tensor:
+        return self.architecture(x)
 
     def forward(self, x: Tensor) -> Tensor:
         return self.architecture(x)

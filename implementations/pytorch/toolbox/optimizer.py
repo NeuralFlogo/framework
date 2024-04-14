@@ -1,5 +1,3 @@
-from abc import ABC
-
 from framework.toolbox.optimizer import Optimizer
 
 

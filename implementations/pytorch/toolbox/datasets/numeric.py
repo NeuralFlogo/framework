@@ -21,7 +21,10 @@ class PytorchNumericDataset(PytorchDataset, Dataset):
         row = self.__pandas_dataset.iloc[idx]
         prediction = row[PREDICTION_COLUMN_NAME]
         data = row.drop(PREDICTION_COLUMN_NAME)
-        return torch.tensor(np.array(data), dtype=torch.float32), torch.tensor(prediction, dtype=torch.float32)
+        return torch.tensor(np.array(data), dtype=torch.float32), self.__create_prediction(prediction)
+
+    def __create_prediction(self, prediction):
+        return torch.tensor(prediction, dtype=torch.float32) if type(prediction) == float else torch.tensor(prediction, dtype=torch.long) #TODO Float for regression, Long for Classification
 
     def batches(self) -> List[PytorchDataset.PytorchBatch]:
         batches = []
