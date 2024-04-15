@@ -22,14 +22,14 @@ class Laboratory(ABC):
         self.strategy = strategy
         self.logger = logger
         self.device = device
-        self.logger.set_laboratory_name(self.name)
 
     def explore(self):
         performances = []
         for era in range(1, self.eras + 1):
-            self.logger.set_era(era)
             for experiment in self.experiments:
-                performances.append(experiment.run(self.epochs,
+                performances.append(experiment.run(self.name,
+                                                   era,
+                                                   self.epochs,
                                                    self.dataset.train(),
                                                    self.dataset.validation(),
                                                    self.architecture,

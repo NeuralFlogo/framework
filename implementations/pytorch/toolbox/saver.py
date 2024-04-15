@@ -1,16 +1,14 @@
-import json
 import os
 
 import torch
 
+from framework.architecture.model import Model
+from framework.toolbox.experiment import Experiment
 from framework.toolbox.saver import ModelSaver
-from implementations.pytorch.architecture.architecture import PytorchArchitecture
-from implementations.pytorch.toolbox.optimizer import PytorchOptimizer
 
+PATH_DELIMITER = "/"
 MODEL_FILENAME = "model.pt"
 OPTIMIZER_FILENAME = "optimizer.pt"
-JSON_FILENAME = "checkpoint.json"
-CHECKPOINT_FOLDER = "model_checkpoint"
 
 
 class PytorchModelSaver(ModelSaver):
@@ -19,27 +17,33 @@ class PytorchModelSaver(ModelSaver):
         self.root = root
         self.__json = None
 
-    def save(self, model: PytorchArchitecture, optimizer: PytorchOptimizer):
+    def save(self, model: Model, experiment: Experiment):
         self.__checkpoint_counter += 1
-        self.__json = {}
-        self.__save_model(model)
-        if optimizer:
-            self.__save_optimizer(optimizer)
-        self.__save_json()
+        path = self.__create_path(experiment)
+        self.__check_experiment_manifest(path, experiment)
+        self.__save_weigth(path + PATH_DELIMITER + MODEL_FILENAME, model)
+        if experiment.optimizer:
+            self.__save_weigth(path + PATH_DELIMITER + OPTIMIZER_FILENAME, experiment.optimizer)
 
-    def __save_model(self, model):
-        torch.save(model.state_dict(), self.__folder() + MODEL_FILENAME)
-        self.__json["model"] = self.__folder() + MODEL_FILENAME
+    def __check_experiment_manifest(self, path, experiment):
+        if not self.__is_folder(os.path.dirname(path)):
+            self.__create_experiment_folder(os.path.dirname(path), experiment)
 
-    def __save_optimizer(self, optimizer):
-        torch.save(optimizer.weights(), self.__folder() + OPTIMIZER_FILENAME)
-        self.__json["optimizer"] = self.__folder() + OPTIMIZER_FILENAME
+    def __save_weigth(self, path, model):
+        torch.save(model.weights(), path)
 
-    def __save_json(self):
-        with open(self.__folder() + JSON_FILENAME, 'w') as file:
-            json.dump(self.__json, file)
+    def __create_experiment_folder(self, path, experiment):
+        self.__create_folder(path)
+        self.__create_experiment_manifest(path, experiment)
 
-    def __folder(self):
-        folder = self.root + CHECKPOINT_FOLDER + str(self.__checkpoint_counter) + "/"
-        if not os.path.exists(folder): os.makedirs(folder)
-        return folder
+    def __create_experiment_manifest(self, path, experiment):
+        pass
+
+    def __is_folder(self, path):
+        return os.path.exists(path)
+
+    def __create_folder(self, path):
+        os.makedirs(path)
+
+    def __create_path(self, experiment):
+        return self.root + PATH_DELIMITER + experiment.type_measurement + PATH_DELIMITER + self.__checkpoint_counter

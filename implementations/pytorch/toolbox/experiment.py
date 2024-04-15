@@ -19,14 +19,14 @@ class PytorchExperiment(Experiment):
         super().__init__(name, optimizer, loss_function, stopper, saver)
         self.best_loss = float("inf")
 
-    def run(self, epochs: int, training_set: PytorchDataset, validation_set: PytorchDataset,
+    def run(self, laboratory_name: str, era: int, epochs: int, training_set: PytorchDataset, validation_set: PytorchDataset,
             architecture: PytorchArchitecture, logger: Logger):
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         architecture.to(device)
         for epoch in range(1, epochs + 1):
-            train_loss = self.__train(epoch, training_set, architecture, logger)
+            train_loss = self.__train(laboratory_name, era, epoch, training_set, architecture, logger)
             valid_loss = self.__validate(validation_set, architecture)
-            logger.log_epoch(architecture.name, self.name, epoch, train_loss, valid_loss)
+            logger.log_epoch(architecture.name, laboratory_name, self.name, era, epoch, train_loss, valid_loss)
             if self.__is_checkpoint(valid_loss):
                 self.best_loss = valid_loss
                 self.saver.save(PytorchModel(architecture), self.optimizer)
@@ -35,7 +35,7 @@ class PytorchExperiment(Experiment):
                 break
         return valid_loss, PytorchModel(architecture)
 
-    def __train(self, epoch: int, dataset: PytorchDataset, architecture: PytorchArchitecture, logger: Logger):
+    def __train(self, laboratory_name: str, era: int, epoch: int, dataset: PytorchDataset, architecture: PytorchArchitecture, logger: Logger):
         running_loss, last_loss = 0., 0.
         architecture.train(True)
         for i, batch in enumerate(dataset.batches(), start=1):
@@ -43,7 +43,7 @@ class PytorchExperiment(Experiment):
             running_loss += self.loss_function.compute(outputs, batch.targets(), True)
             self.optimizer.move()
             if i % BATCH_TO_SAVE == 0:
-                logger.log_batch(architecture.name, self.name, epoch, i, self.__get_batch_loss(running_loss, last_loss))
+                logger.log_batch(architecture.name, laboratory_name, self.name, era, epoch, i, self.__get_batch_loss(running_loss, last_loss))
                 last_loss = running_loss
         architecture.train(False)
         return running_loss / len(dataset.batches())

@@ -20,5 +20,5 @@ class Experiment(ABC):
         self.saver = saver
 
     @abstractmethod
-    def run(self, epochs: int, training_set: Dataset, validation_set: Dataset, architecture: Architecture, logger: Logger) -> Tuple[float, Model]:
+    def run(self, laboratory_name: str, era: int, epochs: int, training_set: Dataset, validation_set: Dataset, architecture: Architecture, logger: Logger) -> Tuple[float, Model]:
         pass
