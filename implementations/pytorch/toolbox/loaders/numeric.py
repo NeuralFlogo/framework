@@ -1,41 +1,28 @@
-import string
-import pandas as pd
-from sklearn.model_selection import train_test_split
+import random
 
-from framework.toolbox.dataset import Dataset
+import pandas as pd
+
 from framework.toolbox.loader import DatasetLoader
 from implementations.pytorch.toolbox.datasets.numeric import PytorchNumericDataset
 
-PREDICTION_COLUMN_NAME = "prediction"
+DELIMITER_PARAMETER_NAME = "delimiter"
+HEADER_PARAMETER_NAME = "header"
+FILE_EXTENSION = ".csv"
 
 
 class PytorchNumericDatasetLoader(DatasetLoader):
+    def create_dataset(self, batch_size, dataset):
+        return PytorchNumericDataset(batch_size, dataset)
 
-    def __init__(self, path: string, batch_size: int, seed: int):
-        super().__init__(path, batch_size, seed)
-        self.__pandas_dataset = self.__load()
-        self.__datasets = []
+    def load(self):
+        return self.__shuffle(pd.read_csv(self.filename(FILE_EXTENSION), delimiter=self.__delimiter(), header=self.__header()))
 
-    def __load(self):
-        return pd.read_csv(self.path)
+    def __header(self):
+        return 0 if bool(self.metadata[HEADER_PARAMETER_NAME]) else None
 
-    def load(self, train_proportion: float, validation_proportion: float, test_proportion: float):
-        train_data, test_data = train_test_split(self.__pandas_dataset, test_size=test_proportion,
-                                                 random_state=self.seed)
-        train_data, val_data = train_test_split(train_data, test_size=validation_proportion, random_state=self.seed)
-        self.__datasets.append(self.__create_dataset(train_data))
-        self.__datasets.append(self.__create_dataset(val_data))
-        self.__datasets.append(self.__create_dataset(test_data))
-        return self
+    def __delimiter(self):
+        return self.metadata[DELIMITER_PARAMETER_NAME]
 
-    def __create_dataset(self, pandas_dataset):
-        return PytorchNumericDataset(self.batch_size, pandas_dataset)
-
-    def train(self) -> 'Dataset':
-        return self.__datasets[0]
-
-    def validation(self) -> 'Dataset':
-        return self.__datasets[1]
-
-    def test(self) -> 'Dataset':
-        return self.__datasets[2]
+    def __shuffle(self, dataset):
+        random.seed(self.seed)
+        return dataset.sample(frac=1).reset_index(drop=True)

@@ -4,22 +4,25 @@ from framework.toolbox.laboratory import Laboratory
 from framework.toolbox.logger import Logger
 from framework.toolbox.stopper import EarlyStopper
 from implementations.pytorch.architecture.architecture import PytorchArchitecture as Architecture
-from implementations.pytorch.architecture.sections.linear import PytorchLinearSection as LinearSection
 from implementations.pytorch.architecture.block import PytorchBlock as Block
-from implementations.pytorch.architecture.layers.linear import PytorchLinearLayer as LinearLayer
-from implementations.pytorch.architecture.layers.regularizations.batchnormalization import Pytorch1DimensionalBatchNormalizationLayer as BatchNormalizationLayer
 from implementations.pytorch.architecture.layers.activations.relu import PytorchReLULayer as ReLULayer
+from implementations.pytorch.architecture.layers.linear import PytorchLinearLayer as LinearLayer
+from implementations.pytorch.architecture.layers.regularizations.batchnormalization import \
+    Pytorch1DimensionalBatchNormalizationLayer as BatchNormalizationLayer
 from implementations.pytorch.architecture.layers.regularizations.dropout import PytorchDropoutLayer as DropoutLayer
+from implementations.pytorch.architecture.sections.linear import PytorchLinearSection as LinearSection
 from implementations.pytorch.toolbox.experiment import PytorchExperiment as Experiment
-from implementations.pytorch.toolbox.loaders.numeric import PytorchNumericDatasetLoader
+from implementations.pytorch.toolbox.generator import PytorchDatasetGenerator
 from implementations.pytorch.toolbox.losses.mse import PytorchMSELossFunction as MSELossFunction
 from implementations.pytorch.toolbox.optimizers.sgd import PytorchSGDOptimizer as SGDOptimizer
 from implementations.pytorch.toolbox.saver import PytorchModelSaver as ModelSaver
 from implementations.pytorch.toolbox.strategies.regression import PytorchRegressionStrategy as RegressionStrategy
 
 PATH = "C:/Users/juanc/Downloads/winequality-red.csv"
+DATASET_NAME = "winequality-red"
 
-dataset = PytorchNumericDatasetLoader(PATH, 20, 42).load(0.6, 0.2, 0.2)
+dataset = PytorchDatasetGenerator(DATASET_NAME, PATH, 10, 42).generate(0.7, 0.2, 0.1)
+
 
 architecture = (Architecture("LinearArchitecture")
                     .attach(LinearSection([

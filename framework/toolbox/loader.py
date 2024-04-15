@@ -1,27 +1,21 @@
-import string
 from abc import ABC, abstractmethod
-
-from framework.toolbox.dataset import Dataset
 
 
 class DatasetLoader(ABC):
-    def __init__(self, path: string, batch_size: int, seed: int):
+
+    def __init__(self, path, name, seed, metadata):
         self.path = path
-        self.batch_size = batch_size
+        self.name = name
         self.seed = seed
+        self.metadata = metadata
 
     @abstractmethod
-    def load(self, train_proportion: float, validation_proportion: float, test_proportion: float) -> 'DatasetLoader':
+    def load(self):
         pass
 
     @abstractmethod
-    def train(self) -> 'Dataset':
+    def create_dataset(self, batch_size, data):
         pass
 
-    @abstractmethod
-    def validation(self) -> 'Dataset':
-        pass
-
-    @abstractmethod
-    def test(self) -> 'Dataset':
-        pass
+    def filename(self, file_extension):
+        return self.path + self.name + file_extension

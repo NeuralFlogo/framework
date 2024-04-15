@@ -26,7 +26,7 @@ from implementations.pytorch.toolbox.strategies.classification import \
     PytorchClassificationStrategy as ClassificationStrategy
 
 PATH = "C:/Users/juanc/Downloads/PetImages/PetImages"
-dataset = ImageDatasetLoader(PATH, 53, 42).load(0.6, 0.2, 0.2)
+dataset = ImageDatasetLoader(PATH, 53, 42).generate(0.6, 0.2, 0.2)
 architecture = (Architecture("ConvolutionalArchitecture")
                     .attach(ConvolutionalSection([
                         Block([

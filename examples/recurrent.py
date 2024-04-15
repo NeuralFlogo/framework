@@ -11,14 +11,17 @@ from implementations.pytorch.architecture.layers.recurrents.rnn import PytorchRN
 from implementations.pytorch.architecture.layers.slicing import PytorchSlicingLayer as SlicingLayer
 from implementations.pytorch.architecture.sections.recurrent import PytorchRecurrentSection as RecurrentSection
 from implementations.pytorch.toolbox.experiment import PytorchExperiment as Experiment
-from implementations.pytorch.toolbox.loaders.numeric import PytorchNumericDatasetLoader as NumericDatasetLoader
-from implementations.pytorch.toolbox.losses.cross_entropy import PytorchCrossEntropyLossFunction as CrossEntropyLossFunction
+from implementations.pytorch.toolbox.generator import PytorchDatasetGenerator
+from implementations.pytorch.toolbox.losses.cross_entropy import \
+    PytorchCrossEntropyLossFunction as CrossEntropyLossFunction
 from implementations.pytorch.toolbox.optimizers.sgd import PytorchSGDOptimizer as SGDOptimizer
 from implementations.pytorch.toolbox.saver import PytorchModelSaver as ModelSaver
-from implementations.pytorch.toolbox.strategies.classification import PytorchClassificationStrategy as ClassificationStrategy
+from implementations.pytorch.toolbox.strategies.classification import \
+    PytorchClassificationStrategy as ClassificationStrategy
 
 PATH = "C:/Users/juanc/Downloads/digit-recognizer/train.csv"
-dataset = NumericDatasetLoader(PATH, 100, 42).load(0.6, 0.2, 0.2)
+DATASET_NAME = ""
+dataset = PytorchDatasetGenerator(DATASET_NAME, PATH, 10, 42).generate(0.7, 0.2, 0.1)
 
 architecture = (Architecture("RecurrentArchitecture")
                     .attach(RecurrentSection([

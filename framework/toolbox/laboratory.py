@@ -4,14 +4,14 @@ from typing import List, Tuple
 
 from framework.architecture.architecture import Architecture
 from framework.architecture.model import Model
-from framework.toolbox.loader import DatasetLoader
+from framework.toolbox.generator import DatasetGenerator
 from framework.toolbox.experiment import Experiment
 from framework.toolbox.logger import Logger
 from framework.toolbox.strategy import Strategy
 
 
 class Laboratory(ABC):
-    def __init__(self, name: str, epochs: int, dataset: DatasetLoader, architecture: Architecture,
+    def __init__(self, name: str, epochs: int, dataset: DatasetGenerator, architecture: Architecture,
                  experiments: List[Experiment], strategy: Strategy, logger: Logger, device: 'Device', eras: int = 1):
         self.name = name
         self.eras = eras
