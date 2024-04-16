@@ -52,4 +52,4 @@ class Laboratory(ABC):
         return self.experiments[performances.index(min(performances, key=lambda x: x[1]))]
 
     def __test_strategy(self) -> str:
-        return self.strategy.__class__.__name__.strip("Strategy").lower()
+        return self.strategy.__class__.__bases__[0].__name__.strip("Strategy").lower()

@@ -1,6 +1,3 @@
-from PIL import Image
-from torchvision import transforms
-
 from framework.toolbox.laboratory import Laboratory
 from framework.toolbox.logger import Logger
 from framework.toolbox.stopper import EarlyStopper
@@ -8,25 +5,24 @@ from implementations.pytorch.architecture.architecture import PytorchArchitectur
 from implementations.pytorch.architecture.block import PytorchBlock as Block
 from implementations.pytorch.architecture.layers.activations.relu import PytorchReLULayer as ReLULayer
 from implementations.pytorch.architecture.layers.activations.softmax import PytorchSoftmaxLayer as SoftmaxLayer
-from implementations.pytorch.architecture.layers.convolutional import \
-    Pytorch2DimensionalConvolutionalLayer as ConvolutionalLayer
+from implementations.pytorch.architecture.layers.convolutional import Pytorch2DimensionalConvolutionalLayer as ConvolutionalLayer
 from implementations.pytorch.architecture.layers.flatten import PytorchFlattenLayer as FlattenLayer
 from implementations.pytorch.architecture.layers.linear import PytorchLinearLayer as LinearLayer
 from implementations.pytorch.architecture.layers.poolings.maxpool import Pytorch2DimensionalMaxPoolLayer as MaxPoolLayer
-from implementations.pytorch.architecture.sections.convolutional import \
-    PytorchConvolutionalSection as ConvolutionalSection
+from implementations.pytorch.architecture.sections.convolutional import PytorchConvolutionalSection as ConvolutionalSection
 from implementations.pytorch.architecture.sections.linear import PytorchLinearSection as LinearSection
+from implementations.pytorch.toolbox.device import PytorchDevice as Device
 from implementations.pytorch.toolbox.experiment import PytorchExperiment as Experiment
-from implementations.pytorch.toolbox.loaders.image import PytorchImageDatasetLoader as ImageDatasetLoader
-from implementations.pytorch.toolbox.losses.cross_entropy import \
-    PytorchCrossEntropyLossFunction as CrossEntropyLossFunction
+from implementations.pytorch.toolbox.generator import PytorchDatasetGenerator as DatasetGenerator
+from implementations.pytorch.toolbox.losses.cross_entropy import PytorchCrossEntropyLossFunction as CrossEntropyLossFunction
 from implementations.pytorch.toolbox.optimizers.adam import PytorchAdamOptimizer as AdamOptimizer
 from implementations.pytorch.toolbox.saver import PytorchModelSaver as ModelSaver
-from implementations.pytorch.toolbox.strategies.classification import \
-    PytorchClassificationStrategy as ClassificationStrategy
+from implementations.pytorch.toolbox.strategies.classification import PytorchClassificationStrategy as ClassificationStrategy
 
-PATH = "C:/Users/juanc/Downloads/PetImages/PetImages"
-dataset = PytorchDataset(PATH, 53, 42).generate(0.6, 0.2, 0.2)
+PATH = "C:/Users/juanc/Downloads/image_dataset/image_dataset/"
+DATASET_NAME = "CatDogDataset"
+
+dataset = DatasetGenerator(DATASET_NAME, PATH, 10, 42).generate(0.7, 0.2, 0.1)
 architecture = (Architecture("ConvolutionalArchitecture")
                     .attach(ConvolutionalSection([
                         Block([
@@ -56,12 +52,11 @@ experiment = Experiment("C3P0",
                                ModelSaver("C:/Users/juanc/Downloads/test/"))
 
 Laboratory("star-wars",
-                      1,
-                      dataset,
-                      architecture,
-                      [experiment],
-                      ClassificationStrategy(),
-                      Logger("C:/Users/juanc/Downloads/test/log.txt"), 1).explore()
-
-test = transforms.ToTensor()(Image.open("C:/Users/juanc/Downloads/cat-1(1).jpeg"))
-print(model.predict(test.unsqueeze(0)).argmax(1))
+           1,
+           1,
+           dataset,
+           architecture,
+ [experiment],
+            ClassificationStrategy(),
+            Logger("C:/Users/juanc/Downloads/test/log.txt"),
+            Device(0)).explore()

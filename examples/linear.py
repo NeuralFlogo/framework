@@ -1,5 +1,3 @@
-import torch
-
 from framework.toolbox.laboratory import Laboratory
 from framework.toolbox.logger import Logger
 from framework.toolbox.stopper import EarlyStopper
@@ -51,4 +49,3 @@ experiment = Experiment("r2d2",
                                ModelSaver("C:/Users/juanc/Downloads/test"))
 
 Laboratory("star-wars", 1, 10, dataset, architecture, [experiment], RegressionStrategy(MSELossFunction()), Logger("C:/Users/juanc/Downloads/test/log.txt"), Device(0)).explore()
-# print(model.predict(torch.tensor([[7.4, 0.7, 0.0, 1.9, 0.076, 11.0, 34.0, 0.9978, 3.51, 0.56, 9.4]], dtype=torch.float32)))
