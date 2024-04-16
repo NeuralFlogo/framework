@@ -28,7 +28,8 @@ class PytorchModelSaver(ModelSaver):
             self.__create_experiment_folder(experiment)
 
     def __save_weigths(self, path: str, component: PytorchModel | PytorchOptimizer):
-        self.__mkdir(os.path.dirname(path))
+        if not self.__is_dir(os.path.dirname(path)):
+            self.__mkdir(os.path.dirname(path))
         torch.save(component.weights(), path)
 
     def __path_of(self, experiment: str):
