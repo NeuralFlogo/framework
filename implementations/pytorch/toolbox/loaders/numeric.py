@@ -8,6 +8,7 @@ from implementations.pytorch.toolbox.datasets.numeric import PytorchNumericDatas
 Delimiter = "delimiter"
 Header = "header"
 Extension = ".csv"
+TargetColumn = "prediction"
 
 
 class PytorchNumericDatasetLoader(DatasetLoader):
@@ -15,7 +16,10 @@ class PytorchNumericDatasetLoader(DatasetLoader):
         return PytorchNumericDataset(batch_size, data)
 
     def load(self):
-        return self.__shuffle(pd.read_csv(self.filename(Extension), delimiter=self.__delimiter(), header=self.__header()))
+        data = pd.read_csv(self.filename(Extension), delimiter=self.__delimiter(), header=self.__header())
+        if self.metadata['task'] == 'classification':
+            data[TargetColumn] = data[TargetColumn].astype(int)
+        return self.__shuffle(data)
 
     def __header(self):
         return 0 if bool(self.metadata[Header]) else None

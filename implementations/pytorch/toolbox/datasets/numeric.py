@@ -18,4 +18,4 @@ class PytorchNumericDataset(PytorchDataset):
         row = self.__data.iloc[idx]
         prediction = row[TargetColumn]
         data = row.drop(TargetColumn)
-        return torch.tensor(np.array(data), dtype=torch.float32), torch.tensor(prediction, dtype=torch.float32)
+        return torch.tensor(np.array(data), dtype=torch.float32), torch.tensor(prediction, dtype=torch.float32) if type(prediction) == float else torch.tensor(prediction, dtype=torch.long)

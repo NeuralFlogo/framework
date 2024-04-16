@@ -53,7 +53,7 @@ experiment = Experiment("C3P0",
 
 Laboratory("star-wars",
            1,
-           1,
+           2,
            dataset,
            architecture,
  [experiment],

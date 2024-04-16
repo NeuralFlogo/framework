@@ -16,8 +16,8 @@ from implementations.pytorch.toolbox.optimizers.sgd import PytorchSGDOptimizer a
 from implementations.pytorch.toolbox.saver import PytorchModelSaver as ModelSaver
 from implementations.pytorch.toolbox.strategies.classification import PytorchClassificationStrategy as ClassificationStrategy
 
-PATH = "C:/Users/juanc/Downloads/digit-recognizer/train.csv"
-DATASET_NAME = ""
+PATH = "C:/Users/juanc/Downloads/digit-recognizer/"
+DATASET_NAME = "mnist"
 dataset = PytorchDatasetGenerator(DATASET_NAME, PATH, 10, 42).generate(0.7, 0.2, 0.1)
 
 architecture = (Architecture("RecurrentArchitecture")
@@ -38,7 +38,7 @@ experiment = Experiment("R9H3",
 
 Laboratory("star-wars",
                       1,
-                      10,
+                      2,
                       dataset,
                       architecture,
                       [experiment],
