@@ -3,11 +3,12 @@ from typing import Tuple
 
 from framework.architecture.architecture import Architecture
 from framework.architecture.model import Model
-from framework.toolbox.dataset import Dataset
+from framework.toolbox.data.dataset import Dataset
+from framework.toolbox.device import Device
+from framework.toolbox.logger import Logger
 from framework.toolbox.loss import LossFunction
 from framework.toolbox.optimizer import Optimizer
 from framework.toolbox.saver import ModelSaver
-from framework.toolbox.logger import Logger
 from framework.toolbox.stopper import EarlyStopper
 
 
@@ -20,5 +21,5 @@ class Experiment(ABC):
         self.saver = saver
 
     @abstractmethod
-    def run(self, laboratory_name: str, era: int, epochs: int, training_set: Dataset, validation_set: Dataset, architecture: Architecture, logger: Logger) -> Tuple[float, Model]:
+    def run(self, epochs: int, training_set: Dataset, validation_set: Dataset, architecture: Architecture, logger: Logger, device: Device) -> Tuple[Model, float]:
         pass

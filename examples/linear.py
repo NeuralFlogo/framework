@@ -7,10 +7,10 @@ from implementations.pytorch.architecture.architecture import PytorchArchitectur
 from implementations.pytorch.architecture.block import PytorchBlock as Block
 from implementations.pytorch.architecture.layers.activations.relu import PytorchReLULayer as ReLULayer
 from implementations.pytorch.architecture.layers.linear import PytorchLinearLayer as LinearLayer
-from implementations.pytorch.architecture.layers.regularizations.batchnormalization import \
-    Pytorch1DimensionalBatchNormalizationLayer as BatchNormalizationLayer
+from implementations.pytorch.architecture.layers.regularizations.batchnormalization import Pytorch1DimensionalBatchNormalizationLayer as BatchNormalizationLayer
 from implementations.pytorch.architecture.layers.regularizations.dropout import PytorchDropoutLayer as DropoutLayer
 from implementations.pytorch.architecture.sections.linear import PytorchLinearSection as LinearSection
+from implementations.pytorch.toolbox.device import PytorchDevice as Device
 from implementations.pytorch.toolbox.experiment import PytorchExperiment as Experiment
 from implementations.pytorch.toolbox.generator import PytorchDatasetGenerator
 from implementations.pytorch.toolbox.losses.mse import PytorchMSELossFunction as MSELossFunction
@@ -18,7 +18,7 @@ from implementations.pytorch.toolbox.optimizers.sgd import PytorchSGDOptimizer a
 from implementations.pytorch.toolbox.saver import PytorchModelSaver as ModelSaver
 from implementations.pytorch.toolbox.strategies.regression import PytorchRegressionStrategy as RegressionStrategy
 
-PATH = "C:/Users/juanc/Downloads/winequality-red.csv"
+PATH = "C:/Users/juanc/Downloads/numeric_dataset/numeric_dataset/"
 DATASET_NAME = "winequality-red"
 
 dataset = PytorchDatasetGenerator(DATASET_NAME, PATH, 10, 42).generate(0.7, 0.2, 0.1)
@@ -48,7 +48,7 @@ experiment = Experiment("r2d2",
                                SGDOptimizer(architecture.parameters(), learning_rate=0.001, momentum=0, dampening=0, weight_decay=0),
                                MSELossFunction(),
                                EarlyStopper(10, 0.01),
-                               ModelSaver("C:/Users/juanc/Downloads/test/"))
+                               ModelSaver("C:/Users/juanc/Downloads/test"))
 
-_, model = Laboratory("star-wars", 10, dataset, architecture, [experiment], RegressionStrategy(MSELossFunction()), Logger("C:/Users/juanc/Downloads/test/log.txt"), 1).explore()
-print(model.predict(torch.tensor([[7.4, 0.7, 0.0, 1.9, 0.076, 11.0, 34.0, 0.9978, 3.51, 0.56, 9.4]], dtype=torch.float32)))
+Laboratory("star-wars", 1, 10, dataset, architecture, [experiment], RegressionStrategy(MSELossFunction()), Logger("C:/Users/juanc/Downloads/test/log.txt"), Device(0)).explore()
+# print(model.predict(torch.tensor([[7.4, 0.7, 0.0, 1.9, 0.076, 11.0, 34.0, 0.9978, 3.51, 0.56, 9.4]], dtype=torch.float32)))

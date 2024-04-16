@@ -3,7 +3,7 @@ from typing import List
 
 
 class Dataset(ABC):
-    def __init__(self, batch_size):
+    def __init__(self, batch_size: int):
         self.batch_size = batch_size
 
     @abstractmethod
@@ -12,9 +12,9 @@ class Dataset(ABC):
 
     class Batch(ABC):
         @abstractmethod
-        def targets(self):
+        def inputs(self):
             pass
 
         @abstractmethod
-        def inputs(self):
+        def targets(self):
             pass

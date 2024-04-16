@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
 
 from framework.architecture.model import Model
-from framework.toolbox.experiment import Experiment
+from framework.toolbox.optimizer import Optimizer
 
 
 class ModelSaver(ABC):
     @abstractmethod
-    def save(self, model: Model, experiment: Experiment):
+    def save(self, experiment: str, model: Model, optimizer: Optimizer):
         pass

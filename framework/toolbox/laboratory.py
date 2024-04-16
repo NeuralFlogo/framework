@@ -1,45 +1,55 @@
 from abc import ABC
-from enum import Enum
 from typing import List, Tuple
 
 from framework.architecture.architecture import Architecture
 from framework.architecture.model import Model
-from framework.toolbox.generator import DatasetGenerator
+from framework.toolbox.device import Device
 from framework.toolbox.experiment import Experiment
+from framework.toolbox.data.generator import DatasetGenerator
 from framework.toolbox.logger import Logger
+from framework.toolbox.strategies.classification import ClassificationStrategy
 from framework.toolbox.strategy import Strategy
 
 
 class Laboratory(ABC):
-    def __init__(self, name: str, epochs: int, dataset: DatasetGenerator, architecture: Architecture,
-                 experiments: List[Experiment], strategy: Strategy, logger: Logger, device: 'Device', eras: int = 1):
+    def __init__(self, name: str, eras: int, epochs: int, datagen: DatasetGenerator, architecture: Architecture, experiments: List[Experiment], strategy: Strategy, logger: Logger, device: Device):
         self.name = name
         self.eras = eras
         self.epochs = epochs
-        self.dataset = dataset
+        self.datagen = datagen
         self.architecture = architecture
         self.experiments = experiments
         self.strategy = strategy
         self.logger = logger
         self.device = device
+        self.logger.set_laboratory_name(self.name)
 
     def explore(self):
         performances = []
         for era in range(1, self.eras + 1):
+            self.logger.set_era(era)
             for experiment in self.experiments:
-                performances.append(experiment.run(self.name,
-                                                   era,
-                                                   self.epochs,
-                                                   self.dataset.train(),
-                                                   self.dataset.validation(),
-                                                   self.architecture,
-                                                   self.logger))
-        return self.strategy.evaluate(self.dataset.test(), self.__best_model(performances)), self.__best_model(performances)
+                performances.append(
+                    experiment.run(epochs=self.epochs,
+                                   training_set=self.datagen.train(),
+                                   validation_set=self.datagen.validation(),
+                                   architecture=self.architecture,
+                                   logger=self.logger,
+                                   device=self.device))
+        self.logger.set_era(-1)
+        self.__log_test_results(performances)
 
-    def __best_model(self, performances: List[Tuple[float, Model]]) -> Model:
-        return performances[performances.index(min(performances, key=lambda x: x[0]))][1]
+    def __log_test_results(self, performances: List[Tuple[Model, float]]):
+        experiment = self.__best_experiment(performances)
+        self.logger.log_test(architecture=self.architecture.name,
+                             experiment=experiment.name,
+                             strategy=self.__test_strategy(),
+                             measurement=self.strategy.evaluate(self.datagen.test(), performances[self.experiments.index(experiment)][0], self.device))
 
-    class Device(Enum):
-        CPU = "cpu"
-        GPU = "gpu"
-        MPS = "mps"
+    def __best_experiment(self, performances: List[Tuple[Model, float]]) -> Experiment:
+        if isinstance(self.strategy, ClassificationStrategy):
+            return self.experiments[performances.index(max(performances, key=lambda x: x[1]))]
+        return self.experiments[performances.index(min(performances, key=lambda x: x[1]))]
+
+    def __test_strategy(self) -> str:
+        return self.strategy.__class__.__name__.strip("Strategy").lower()

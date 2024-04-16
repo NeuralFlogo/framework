@@ -26,7 +26,7 @@ from implementations.pytorch.toolbox.strategies.classification import \
     PytorchClassificationStrategy as ClassificationStrategy
 
 PATH = "C:/Users/juanc/Downloads/PetImages/PetImages"
-dataset = ImageDatasetLoader(PATH, 53, 42).generate(0.6, 0.2, 0.2)
+dataset = PytorchDataset(PATH, 53, 42).generate(0.6, 0.2, 0.2)
 architecture = (Architecture("ConvolutionalArchitecture")
                     .attach(ConvolutionalSection([
                         Block([
@@ -55,12 +55,13 @@ experiment = Experiment("C3P0",
                                EarlyStopper(10, 0.01),
                                ModelSaver("C:/Users/juanc/Downloads/test/"))
 
-_, model = Laboratory("star-wars",
+Laboratory("star-wars",
                       1,
                       dataset,
                       architecture,
                       [experiment],
                       ClassificationStrategy(),
                       Logger("C:/Users/juanc/Downloads/test/log.txt"), 1).explore()
+
 test = transforms.ToTensor()(Image.open("C:/Users/juanc/Downloads/cat-1(1).jpeg"))
 print(model.predict(test.unsqueeze(0)).argmax(1))

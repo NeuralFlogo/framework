@@ -1,14 +1,14 @@
 from abc import ABC, abstractmethod
 
-from framework.toolbox.dataset import Dataset
+from framework.toolbox.data.dataset import Dataset
 
 
 class DatasetGenerator(ABC):
-    def __init__(self, name: str, path: str, batch_size: int, seed: int):
+    def __init__(self, name: str, path: str, batch_size: int, random_state: int):
         self.name = name
         self.path = path
         self.batch_size = batch_size
-        self.seed = seed
+        self.seed = random_state
         self.datasets = []
 
     @abstractmethod
