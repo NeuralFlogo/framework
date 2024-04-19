@@ -10,7 +10,7 @@ from implementations.pytorch.architecture.layers.regularizations.dropout import 
 from implementations.pytorch.architecture.sections.linear import PytorchLinearSection as LinearSection
 from implementations.pytorch.toolbox.device import PytorchDevice as Device
 from implementations.pytorch.toolbox.experiment import PytorchExperiment as Experiment
-from implementations.pytorch.toolbox.generator import PytorchDatasetGenerator
+from implementations.pytorch.toolbox.data.generator import PytorchDatasetGenerator
 from implementations.pytorch.toolbox.losses.mse import PytorchMSELossFunction as MSELossFunction
 from implementations.pytorch.toolbox.optimizers.sgd import PytorchSGDOptimizer as SGDOptimizer
 from implementations.pytorch.toolbox.saver import PytorchModelSaver as ModelSaver

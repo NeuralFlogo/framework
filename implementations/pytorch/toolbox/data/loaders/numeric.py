@@ -3,7 +3,7 @@ import random
 import pandas as pd
 
 from framework.toolbox.data.loader import DatasetLoader
-from implementations.pytorch.toolbox.datasets.numeric import PytorchNumericDataset
+from implementations.pytorch.toolbox.data.datasets.numeric import PytorchNumericDataset
 
 Delimiter = "delimiter"
 Header = "header"

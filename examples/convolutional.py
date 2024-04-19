@@ -13,7 +13,7 @@ from implementations.pytorch.architecture.sections.convolutional import PytorchC
 from implementations.pytorch.architecture.sections.linear import PytorchLinearSection as LinearSection
 from implementations.pytorch.toolbox.device import PytorchDevice as Device
 from implementations.pytorch.toolbox.experiment import PytorchExperiment as Experiment
-from implementations.pytorch.toolbox.generator import PytorchDatasetGenerator as DatasetGenerator
+from implementations.pytorch.toolbox.data.generator import PytorchDatasetGenerator as DatasetGenerator
 from implementations.pytorch.toolbox.losses.cross_entropy import PytorchCrossEntropyLossFunction as CrossEntropyLossFunction
 from implementations.pytorch.toolbox.optimizers.adam import PytorchAdamOptimizer as AdamOptimizer
 from implementations.pytorch.toolbox.saver import PytorchModelSaver as ModelSaver

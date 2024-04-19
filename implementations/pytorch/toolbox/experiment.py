@@ -7,7 +7,7 @@ from framework.toolbox.logger import Logger
 from framework.toolbox.stopper import EarlyStopper
 from implementations.pytorch.architecture.architecture import PytorchArchitecture
 from implementations.pytorch.architecture.model import PytorchModel
-from implementations.pytorch.toolbox.dataset import PytorchDataset
+from implementations.pytorch.toolbox.data.dataset import PytorchDataset
 from implementations.pytorch.toolbox.device import PytorchDevice
 from implementations.pytorch.toolbox.loader import PytorchModelLoader
 from implementations.pytorch.toolbox.loss import PytorchLossFunction

@@ -3,8 +3,8 @@ from sklearn.model_selection import train_test_split
 from framework.toolbox.data.dataset import Dataset
 from framework.toolbox.data.generator import DatasetGenerator
 from framework.toolbox.data.loader import DatasetLoader
-from implementations.pytorch.toolbox.loaders.image import PytorchImageDatasetLoader
-from implementations.pytorch.toolbox.loaders.numeric import PytorchNumericDatasetLoader
+from implementations.pytorch.toolbox.data.loaders.image import PytorchImageDatasetLoader
+from implementations.pytorch.toolbox.data.loaders.numeric import PytorchNumericDatasetLoader
 
 Metadataset = "meta-dataset.tsv"
 Delimiter = "\t"

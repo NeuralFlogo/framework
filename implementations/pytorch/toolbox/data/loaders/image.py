@@ -1,7 +1,7 @@
 import random
 
 from framework.toolbox.data.loader import DatasetLoader
-from implementations.pytorch.toolbox.datasets.image import PytorchImageDataset
+from implementations.pytorch.toolbox.data.datasets.image import PytorchImageDataset
 
 Delimiter = "\t"
 Extension = ".txt"

@@ -2,7 +2,7 @@ import torch
 
 from framework.toolbox.strategies.classification import ClassificationStrategy
 from implementations.pytorch.architecture.model import PytorchModel
-from implementations.pytorch.toolbox.dataset import PytorchDataset
+from implementations.pytorch.toolbox.data.dataset import PytorchDataset
 from implementations.pytorch.toolbox.device import PytorchDevice
 
 

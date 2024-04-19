@@ -2,7 +2,7 @@ import torch
 from PIL import Image
 from torchvision import transforms
 
-from implementations.pytorch.toolbox.dataset import PytorchDataset
+from implementations.pytorch.toolbox.data.dataset import PytorchDataset
 
 
 class PytorchImageDataset(PytorchDataset):
