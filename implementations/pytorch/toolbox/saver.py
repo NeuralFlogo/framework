@@ -13,15 +13,18 @@ OptimizerFilename = "optimizer.pt"
 
 class PytorchModelSaver(ModelSaver):
     def __init__(self, root: str):
-        self.__checkpoint_counter = 1
         self.root = root
+        self.__checkpoint_counter = 0
 
     def save(self, experiment: str, model: PytorchModel, optimizer: PytorchOptimizer):
+        self.__checkpoint_counter += 1
         self.__init_manifest(experiment)
         self.__save_weigths(self.__path_of(experiment) + Delimiter + ModelFilename, model)
         if optimizer:
             self.__save_weigths(self.__path_of(experiment) + Delimiter + OptimizerFilename, optimizer)
-        self.__checkpoint_counter += 1
+
+    def latest_checkpoint(self, experiment: str):
+        return self.__path_of(experiment) + Delimiter + ModelFilename
 
     def __init_manifest(self, experiment):
         if not self.__is_dir(self.__experiment_path(experiment)):
@@ -33,7 +36,7 @@ class PytorchModelSaver(ModelSaver):
         torch.save(component.weights(), path)
 
     def __path_of(self, experiment: str):
-        return self.root + Delimiter + experiment + Delimiter + str(self.__checkpoint_counter)
+        return self.root + Delimiter + experiment + Delimiter + "checkpoint-" + str(self.__checkpoint_counter)
 
     def __is_dir(self, path):
         return os.path.exists(path)

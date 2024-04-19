@@ -14,9 +14,10 @@ from implementations.pytorch.toolbox.generator import PytorchDatasetGenerator
 from implementations.pytorch.toolbox.losses.mse import PytorchMSELossFunction as MSELossFunction
 from implementations.pytorch.toolbox.optimizers.sgd import PytorchSGDOptimizer as SGDOptimizer
 from implementations.pytorch.toolbox.saver import PytorchModelSaver as ModelSaver
+from implementations.pytorch.toolbox.loader import PytorchModelLoader as ModelLoader
 from implementations.pytorch.toolbox.strategies.regression import PytorchRegressionStrategy as RegressionStrategy
 
-PATH = "C:/Users/juanc/Downloads/numeric_dataset/numeric_dataset/"
+PATH = ""
 DATASET_NAME = "winequality-red"
 
 dataset = PytorchDatasetGenerator(DATASET_NAME, PATH, 10, 42).generate(0.7, 0.2, 0.1)
@@ -46,6 +47,6 @@ experiment = Experiment("r2d2",
                                SGDOptimizer(architecture.parameters(), learning_rate=0.001, momentum=0, dampening=0, weight_decay=0),
                                MSELossFunction(),
                                EarlyStopper(10, 0.01),
-                               ModelSaver("C:/Users/juanc/Downloads/test"))
+                               ModelSaver(""))
 
-Laboratory("star-wars", 1, 10, dataset, architecture, [experiment], RegressionStrategy(MSELossFunction()), Logger("C:/Users/juanc/Downloads/test/log.txt"), Device(0)).explore()
+Laboratory("star-wars", 1, 10, dataset, architecture, [experiment], RegressionStrategy(MSELossFunction()), Logger(""), ModelLoader(), Device(1)).explore()

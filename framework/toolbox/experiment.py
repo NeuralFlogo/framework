@@ -5,6 +5,7 @@ from framework.architecture.architecture import Architecture
 from framework.architecture.model import Model
 from framework.toolbox.data.dataset import Dataset
 from framework.toolbox.device import Device
+from framework.toolbox.loader import ModelLoader
 from framework.toolbox.logger import Logger
 from framework.toolbox.loss import LossFunction
 from framework.toolbox.optimizer import Optimizer
@@ -21,5 +22,5 @@ class Experiment(ABC):
         self.saver = saver
 
     @abstractmethod
-    def run(self, epochs: int, training_set: Dataset, validation_set: Dataset, architecture: Architecture, logger: Logger, device: Device) -> Tuple[Model, float]:
+    def run(self, epochs: int, training_set: Dataset, validation_set: Dataset, architecture: Architecture, logger: Logger, loader: ModelLoader, device: Device) -> Tuple[Model, float]:
         pass

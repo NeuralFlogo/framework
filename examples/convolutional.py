@@ -17,12 +17,15 @@ from implementations.pytorch.toolbox.generator import PytorchDatasetGenerator as
 from implementations.pytorch.toolbox.losses.cross_entropy import PytorchCrossEntropyLossFunction as CrossEntropyLossFunction
 from implementations.pytorch.toolbox.optimizers.adam import PytorchAdamOptimizer as AdamOptimizer
 from implementations.pytorch.toolbox.saver import PytorchModelSaver as ModelSaver
+from implementations.pytorch.toolbox.loader import PytorchModelLoader as ModelLoader
 from implementations.pytorch.toolbox.strategies.classification import PytorchClassificationStrategy as ClassificationStrategy
 
-PATH = "C:/Users/juanc/Downloads/image_dataset/image_dataset/"
+PATH = ""
 DATASET_NAME = "CatDogDataset"
 
 dataset = DatasetGenerator(DATASET_NAME, PATH, 10, 42).generate(0.7, 0.2, 0.1)
+
+
 architecture = (Architecture("ConvolutionalArchitecture")
                     .attach(ConvolutionalSection([
                         Block([
@@ -49,14 +52,6 @@ experiment = Experiment("C3P0",
                                AdamOptimizer(architecture.parameters(), learning_rate=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0),
                                CrossEntropyLossFunction(),
                                EarlyStopper(10, 0.01),
-                               ModelSaver("C:/Users/juanc/Downloads/test/"))
+                               ModelSaver(""))
 
-Laboratory("star-wars",
-           1,
-           2,
-           dataset,
-           architecture,
- [experiment],
-            ClassificationStrategy(),
-            Logger("C:/Users/juanc/Downloads/test/log.txt"),
-            Device(0)).explore()
+Laboratory("star-wars",1,2, dataset, architecture,[experiment], ClassificationStrategy(), Logger(""), ModelLoader(), Device(0)).explore()

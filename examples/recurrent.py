@@ -14,9 +14,10 @@ from implementations.pytorch.toolbox.generator import PytorchDatasetGenerator
 from implementations.pytorch.toolbox.losses.cross_entropy import PytorchCrossEntropyLossFunction as CrossEntropyLossFunction
 from implementations.pytorch.toolbox.optimizers.sgd import PytorchSGDOptimizer as SGDOptimizer
 from implementations.pytorch.toolbox.saver import PytorchModelSaver as ModelSaver
+from implementations.pytorch.toolbox.loader import PytorchModelLoader as ModelLoader
 from implementations.pytorch.toolbox.strategies.classification import PytorchClassificationStrategy as ClassificationStrategy
 
-PATH = "C:/Users/juanc/Downloads/digit-recognizer/"
+PATH = ""
 DATASET_NAME = "mnist"
 dataset = PytorchDatasetGenerator(DATASET_NAME, PATH, 10, 42).generate(0.7, 0.2, 0.1)
 
@@ -34,14 +35,6 @@ experiment = Experiment("R9H3",
                                SGDOptimizer(architecture.parameters(), learning_rate=0.05, momentum=0, dampening=0, weight_decay=0),
                                CrossEntropyLossFunction(),
                                EarlyStopper(10, 0.01),
-                               ModelSaver("C:/Users/juanc/Downloads/test/"))
+                               ModelSaver(""))
 
-Laboratory("star-wars",
-                      1,
-                      2,
-                      dataset,
-                      architecture,
-                      [experiment],
-                      ClassificationStrategy(),
-                      Logger("C:/Users/juanc/Downloads/test/log.txt"),
-                      Device(0)).explore()
+Laboratory("star-wars",1,2, dataset, architecture,[experiment], ClassificationStrategy(), Logger(""), ModelLoader(), Device(0)).explore()

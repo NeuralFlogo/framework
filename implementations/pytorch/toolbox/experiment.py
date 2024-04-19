@@ -9,6 +9,7 @@ from implementations.pytorch.architecture.architecture import PytorchArchitectur
 from implementations.pytorch.architecture.model import PytorchModel
 from implementations.pytorch.toolbox.dataset import PytorchDataset
 from implementations.pytorch.toolbox.device import PytorchDevice
+from implementations.pytorch.toolbox.loader import PytorchModelLoader
 from implementations.pytorch.toolbox.loss import PytorchLossFunction
 from implementations.pytorch.toolbox.optimizer import PytorchOptimizer
 from implementations.pytorch.toolbox.saver import PytorchModelSaver
@@ -18,10 +19,10 @@ SavePoint = 10
 
 class PytorchExperiment(Experiment):
     def __init__(self, name: str, optimizer: PytorchOptimizer, loss_function: PytorchLossFunction, stopper: EarlyStopper, saver: PytorchModelSaver):
-        super().__init__(name, optimizer, loss_function, stopper, saver)
+        super().__init__(name=name, optimizer=optimizer, loss_function=loss_function, stopper=stopper, saver=saver)
         self.best_loss = float("inf")
 
-    def run(self, epochs: int, training_set: PytorchDataset, validation_set: PytorchDataset, architecture: PytorchArchitecture, logger: Logger, device: PytorchDevice) -> Tuple[PytorchModel, float]:
+    def run(self, epochs: int, training_set: PytorchDataset, validation_set: PytorchDataset, architecture: PytorchArchitecture, logger: Logger, loader: PytorchModelLoader, device: PytorchDevice) -> Tuple[PytorchModel, float]:
         validation_loss = float("inf")
         architecture.to(device.get())
         for epoch in range(1, epochs + 1):
@@ -30,10 +31,10 @@ class PytorchExperiment(Experiment):
             logger.log_epoch(architecture.name, self.name, epoch, training_loss, validation_loss)
             if self.__is_checkpoint(validation_loss):
                 self.best_loss = validation_loss
-                self.saver.save(self.name, PytorchModel(architecture), self.optimizer)
+                self.saver.save(self.name, PytorchModel(architecture=architecture, device=device), self.optimizer)
             if self.stopper.should_stop(validation_loss):
                 break
-        return PytorchModel(architecture), validation_loss
+        return self.__get_best_model(loader=loader, architecture=architecture, device=device), validation_loss
 
     def __train(self, epoch: int, dataset: PytorchDataset, architecture: PytorchArchitecture, logger: Logger, device: PytorchDevice):
         running_loss, last_loss = 0., 0.
@@ -62,3 +63,6 @@ class PytorchExperiment(Experiment):
 
     def __get_batch_loss(self, running_loss: float, last_loss: float):
         return (running_loss - last_loss) / SavePoint
+
+    def __get_best_model(self, loader: PytorchModelLoader, architecture: PytorchArchitecture, device: PytorchDevice) -> PytorchModel:
+        return loader.load(path=self.saver.latest_checkpoint(self.name), architecture=architecture, device=device)
