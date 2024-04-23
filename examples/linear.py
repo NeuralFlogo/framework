@@ -17,36 +17,42 @@ from implementations.pytorch.toolbox.saver import PytorchModelSaver as ModelSave
 from implementations.pytorch.toolbox.loader import PytorchModelLoader as ModelLoader
 from implementations.pytorch.toolbox.strategies.regression import PytorchRegressionStrategy as RegressionStrategy
 
-PATH = ""
-DATASET_NAME = "winequality-red"
-
-dataset = PytorchDatasetGenerator(DATASET_NAME, PATH, 10, 42).generate(0.7, 0.2, 0.1)
+dataset = PytorchDatasetGenerator("winequality-red", "", 10, 42).generate(0.7, 0.2, 0.1)
 
 
 architecture = (Architecture("LinearArchitecture")
                     .attach(LinearSection([
-                        Block([
-                            LinearLayer(in_features=11, out_features=30, dimension=-1, bias=True),
-                            BatchNormalizationLayer(num_features=30, eps=1.0E-5, momentum=0.3),
-                            ReLULayer(),
-                            DropoutLayer(probability=0.5)
-                        ]),
-                        Block([
-                            LinearLayer(in_features=30, out_features=10, dimension=-1, bias=True),
-                            BatchNormalizationLayer(num_features=10, eps=1.0E-5, momentum=0.5),
-                            ReLULayer(),
-                            DropoutLayer(probability=0.4)
-                        ]),
-                        Block([
-                            LinearLayer(in_features=10, out_features=1, dimension=-1, bias=True),
-                            ReLULayer()
-                        ])
+                                Block([
+                                    LinearLayer(in_features=11, out_features=30, dimension=-1, bias=True),
+                                    BatchNormalizationLayer(num_features=30, eps=1.0E-5, momentum=0.3),
+                                    ReLULayer(),
+                                    DropoutLayer(probability=0.5)
+                                ]),
+                                Block([
+                                    LinearLayer(in_features=30, out_features=10, dimension=-1, bias=True),
+                                    BatchNormalizationLayer(num_features=10, eps=1.0E-5, momentum=0.5),
+                                    ReLULayer(),
+                                    DropoutLayer(probability=0.4)
+                                ]),
+                                Block([
+                                    LinearLayer(in_features=10, out_features=1, dimension=-1, bias=True),
+                                    ReLULayer()
+                                ])
                     ])))
 
-experiment = Experiment("r2d2",
-                               SGDOptimizer(architecture.parameters(), learning_rate=0.001, momentum=0, dampening=0, weight_decay=0),
-                               MSELossFunction(),
-                               EarlyStopper(10, 0.01),
-                               ModelSaver(""))
+experiment = Experiment(name="r2d2",
+                        architecture=architecture,
+                        optimizer=SGDOptimizer(architecture.parameters(), learning_rate=0.001, momentum=0, dampening=0, weight_decay=0),
+                        loss_function=MSELossFunction(),
+                        stopper=EarlyStopper(10, 0.01),
+                        saver=ModelSaver(""))
 
-Laboratory("star-wars", 1, 10, dataset, architecture, [experiment], RegressionStrategy(MSELossFunction()), Logger(""), ModelLoader(), Device(1)).explore()
+Laboratory(name="star-wars",
+           eras=1,
+           epochs=10,
+           datagen=dataset,
+           experiments=[experiment],
+           strategy=RegressionStrategy(MSELossFunction()),
+           logger=Logger(""),
+           loader=ModelLoader(),
+           device=Device(1)).explore()

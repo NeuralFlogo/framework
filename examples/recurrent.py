@@ -17,9 +17,7 @@ from implementations.pytorch.toolbox.saver import PytorchModelSaver as ModelSave
 from implementations.pytorch.toolbox.loader import PytorchModelLoader as ModelLoader
 from implementations.pytorch.toolbox.strategies.classification import PytorchClassificationStrategy as ClassificationStrategy
 
-PATH = ""
-DATASET_NAME = "mnist"
-dataset = PytorchDatasetGenerator(DATASET_NAME, PATH, 10, 42).generate(0.7, 0.2, 0.1)
+dataset = PytorchDatasetGenerator("Mnist", "", 10, 42).generate(0.7, 0.2, 0.1)
 
 architecture = (Architecture("RecurrentArchitecture")
                     .attach(RecurrentSection([
@@ -31,10 +29,19 @@ architecture = (Architecture("RecurrentArchitecture")
                         ])
                     ])))
 
-experiment = Experiment("R9H3",
-                               SGDOptimizer(architecture.parameters(), learning_rate=0.05, momentum=0, dampening=0, weight_decay=0),
-                               CrossEntropyLossFunction(),
-                               EarlyStopper(10, 0.01),
-                               ModelSaver(""))
+experiment = Experiment(name="R9H3",
+                        architecture=architecture,
+                        optimizer=SGDOptimizer(architecture.parameters(), learning_rate=0.05, momentum=0, dampening=0, weight_decay=0),
+                        loss_function=CrossEntropyLossFunction(),
+                        stopper=EarlyStopper(10, 0.01),
+                        saver=ModelSaver(""))
 
-Laboratory("star-wars",1,2, dataset, architecture,[experiment], ClassificationStrategy(), Logger(""), ModelLoader(), Device(0)).explore()
+Laboratory(name="star-wars",
+           eras=1,
+           epochs=2,
+           datagen=dataset,
+           experiments=[experiment],
+           strategy=ClassificationStrategy(),
+           logger=Logger(""),
+           loader=ModelLoader(),
+           device=Device(1)).explore()

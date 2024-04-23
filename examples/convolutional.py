@@ -20,10 +20,7 @@ from implementations.pytorch.toolbox.saver import PytorchModelSaver as ModelSave
 from implementations.pytorch.toolbox.loader import PytorchModelLoader as ModelLoader
 from implementations.pytorch.toolbox.strategies.classification import PytorchClassificationStrategy as ClassificationStrategy
 
-PATH = ""
-DATASET_NAME = "CatDogDataset"
-
-dataset = DatasetGenerator(DATASET_NAME, PATH, 10, 42).generate(0.7, 0.2, 0.1)
+dataset = DatasetGenerator("CatDogDataset", "", 10, 42).generate(0.7, 0.2, 0.1)
 
 
 architecture = (Architecture("ConvolutionalArchitecture")
@@ -48,10 +45,19 @@ architecture = (Architecture("ConvolutionalArchitecture")
                     ])))
 
 
-experiment = Experiment("C3P0",
-                               AdamOptimizer(architecture.parameters(), learning_rate=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0),
-                               CrossEntropyLossFunction(),
-                               EarlyStopper(10, 0.01),
-                               ModelSaver(""))
+experiment = Experiment(name="C3P0",
+                        architecture=architecture,
+                        optimizer=AdamOptimizer(architecture.parameters(), learning_rate=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0),
+                        loss_function=CrossEntropyLossFunction(),
+                        stopper=EarlyStopper(10, 0.01),
+                        saver=ModelSaver(""))
 
-Laboratory("star-wars",1,2, dataset, architecture,[experiment], ClassificationStrategy(), Logger(""), ModelLoader(), Device(0)).explore()
+Laboratory(name="star-wars",
+           eras=1,
+           epochs=2,
+           datagen=dataset,
+           experiments=[experiment],
+           strategy=ClassificationStrategy(),
+           logger=Logger(""),
+           loader=ModelLoader(),
+           device=Device(1)).explore()
