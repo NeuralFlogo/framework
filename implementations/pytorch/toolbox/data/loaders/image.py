@@ -4,7 +4,7 @@ from framework.toolbox.data.loader import DatasetLoader
 from implementations.pytorch.toolbox.data.datasets.image import PytorchImageDataset
 
 Delimiter = "\t"
-Extension = ".txt"
+Extension = ".tsv"
 
 
 class PytorchImageDatasetLoader(DatasetLoader):
