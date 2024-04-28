@@ -18,7 +18,7 @@ SavePoint = 10
 
 
 class PytorchExperiment(Experiment):
-    def __init__(self, name: str, architecture: PytorchArchitecture, optimizer: PytorchOptimizer, loss_function: PytorchLossFunction, stopper: EarlyStopper, saver: PytorchModelSaver):
+    def __init__(self, name: str, architecture: PytorchArchitecture, optimizer: PytorchOptimizer, loss_function: PytorchLossFunction, saver: PytorchModelSaver, stopper: EarlyStopper = None):
         super().__init__(name=name, architecture=architecture, optimizer=optimizer, loss_function=loss_function, stopper=stopper, saver=saver)
         self.best_loss = float("inf")
 
@@ -32,7 +32,7 @@ class PytorchExperiment(Experiment):
             if self.__is_checkpoint(validation_loss):
                 self.best_loss = validation_loss
                 self.saver.save(self.name, PytorchModel(architecture=self.architecture, device=device), self.optimizer)
-            if self.stopper.should_stop(validation_loss):
+            if self.stopper and self.stopper.should_stop(validation_loss):
                 break
         return self.__get_best_model(loader=loader, device=device), validation_loss
 
