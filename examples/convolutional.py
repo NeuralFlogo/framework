@@ -8,7 +8,7 @@ from implementations.pytorch.architecture.layers.activations.softmax import Pyto
 from implementations.pytorch.architecture.layers.convolutional import Pytorch2DimensionalConvolutionalLayer as ConvolutionalLayer
 from implementations.pytorch.architecture.layers.flatten import PytorchFlattenLayer as FlattenLayer
 from implementations.pytorch.architecture.layers.linear import PytorchLinearLayer as LinearLayer
-from implementations.pytorch.architecture.layers.poolings.maxpool import Pytorch2DimensionalMaxPoolLayer as MaxPoolLayer
+from implementations.pytorch.architecture.layers.poolings.max_pool import Pytorch2DimensionalMaxPoolLayer as MaxPoolLayer
 from implementations.pytorch.architecture.sections.convolutional import PytorchConvolutionalSection as ConvolutionalSection
 from implementations.pytorch.architecture.sections.linear import PytorchLinearSection as LinearSection
 from implementations.pytorch.toolbox.device import PytorchDevice as Device

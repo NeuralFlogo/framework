@@ -5,8 +5,8 @@ from implementations.pytorch.architecture.architecture import PytorchArchitectur
 from implementations.pytorch.architecture.block import PytorchBlock as Block
 from implementations.pytorch.architecture.layers.activations.softmax import PytorchSoftmaxLayer as SoftmaxLayer
 from implementations.pytorch.architecture.layers.linear import PytorchLinearLayer as LinearLayer
+from implementations.pytorch.architecture.layers.recurrent import PytorchSlicingLayer as SlicingLayer
 from implementations.pytorch.architecture.layers.recurrents.rnn import PytorchRNNLayer as RNNLayer
-from implementations.pytorch.architecture.layers.slicing import PytorchSlicingLayer as SlicingLayer
 from implementations.pytorch.architecture.sections.recurrent import PytorchRecurrentSection as RecurrentSection
 from implementations.pytorch.toolbox.device import PytorchDevice as Device
 from implementations.pytorch.toolbox.experiment import PytorchExperiment as Experiment

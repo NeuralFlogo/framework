@@ -18,19 +18,25 @@ class Logger:
         if era == -1: era = ""
         self.era = str(era)
 
-    def log_epoch(self, architecture: str, experiment: str, epoch: int, train_measurement: float, valid_measurement: float):
-        self.__log(self.__entry_of(architecture, experiment, str(epoch), "", "train", str(train_measurement)))
-        self.__log(self.__entry_of(architecture, experiment, str(epoch), "", "validation", str(valid_measurement)))
+    def log_epoch(self, experiment: str, epoch: int, train_measurement: float, valid_measurement: float):
+        self.__log(self.__entry_of(experiment, str(epoch), "", "train", str(train_measurement)))
+        self.__log(self.__entry_of(experiment, str(epoch), "", "validation", str(valid_measurement)))
 
-    def log_batch(self, architecture: str, experiment: str, epoch: int, batch: int, measurement: float):
-        self.__log(self.__entry_of(architecture, experiment, str(epoch), str(batch), "train", str(measurement)))
+    def log_batch(self, experiment: str, epoch: int, batch: int, measurement: float):
+        self.__log(self.__entry_of(experiment, str(epoch), str(batch), "train", str(measurement)))
 
-    def log_test(self, architecture: str, experiment: str, strategy: str, measurement: float):
-        self.__log(self.__entry_of(architecture, experiment, "", "", "{0}-test".format(strategy), str(measurement)))
+    def log_test(self, experiment: str, strategy: str, measurement: float):
+        self.__log(self.__entry_of(experiment, "", "", "{0}-test".format(strategy), str(measurement)))
 
     def __init_file(self):
-        if not self.__file_exist() or self.__is_file_empty():
-            self.__log(Header)
+        if not self.__file_exist():
+            self.__mkdirs()
+        if not self.__is_file_empty():
+            return
+        self.__log(Header)
+
+    def __mkdirs(self):
+        os.makedirs(self.path)
 
     def __log(self, line: str):
         with open(self.path, 'a') as file:
@@ -42,5 +48,5 @@ class Logger:
     def __is_file_empty(self):
         return os.path.getsize(self.path) == 0
 
-    def __entry_of(self, architecture: str, experiment: str, epoch: str, batch: str, mode: str, value: str):
-        return Delimiter.join([architecture, self.laboratory, experiment, self.era, epoch, batch, mode, value])
+    def __entry_of(self, experiment: str, epoch: str, batch: str, mode: str, value: str):
+        return Delimiter.join([self.laboratory, experiment, self.era, epoch, batch, mode, value])

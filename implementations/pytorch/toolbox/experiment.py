@@ -1,5 +1,3 @@
-from typing import Tuple
-
 import torch
 
 from framework.toolbox.experiment import Experiment
@@ -22,8 +20,7 @@ class PytorchExperiment(Experiment):
         super().__init__(name=name, architecture=architecture, optimizer=optimizer, loss_function=loss_function, stopper=stopper, saver=saver)
         self.best_loss = float("inf")
 
-    def run(self, epochs: int, training_set: PytorchDataset, validation_set: PytorchDataset, logger: Logger, loader: PytorchModelLoader, device: PytorchDevice) -> Tuple[PytorchModel, float]:
-        validation_loss = float("inf")
+    def run(self, epochs: int, training_set: PytorchDataset, validation_set: PytorchDataset, logger: Logger, loader: PytorchModelLoader, device: PytorchDevice) -> PytorchModel:
         self.architecture.to(device.get())
         for epoch in range(1, epochs + 1):
             training_loss = self.__train(epoch, training_set, logger, device)
@@ -34,7 +31,7 @@ class PytorchExperiment(Experiment):
                 self.saver.save(self.name, PytorchModel(architecture=self.architecture, device=device), self.optimizer)
             if self.stopper and self.stopper.should_stop(validation_loss):
                 break
-        return self.__get_best_model(loader=loader, device=device), validation_loss
+        return self.__get_best_model(loader=loader, device=device)
 
     def __train(self, epoch: int, dataset: PytorchDataset, logger: Logger, device: PytorchDevice):
         running_loss, last_loss = 0., 0.
