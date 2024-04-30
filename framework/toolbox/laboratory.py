@@ -39,8 +39,7 @@ class Laboratory(ABC):
 
     def __log_test_results(self, performances: Dict[Experiment, float]):
         experiment, test = self.__best_experiment(performances)
-        self.logger.log_test(architecture="",  #TODO add architecture family?
-                             experiment=experiment.name,
+        self.logger.log_test(experiment=experiment.name,
                              strategy=self.__strategy_type(),
                              measurement=test)
 
