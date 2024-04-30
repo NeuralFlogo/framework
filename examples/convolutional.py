@@ -3,18 +3,18 @@ from framework.toolbox.logger import Logger
 from framework.toolbox.stopper import EarlyStopper
 from implementations.pytorch.architecture.architecture import PytorchArchitecture as Architecture
 from implementations.pytorch.architecture.block import PytorchBlock as Block
-from implementations.pytorch.architecture.layers.activations.relu import PytorchReluLayer as ReLULayer
+from implementations.pytorch.architecture.layers.activations.relu import PytorchReLULayer as ReLULayer
 from implementations.pytorch.architecture.layers.activations.softmax import PytorchSoftmaxLayer as SoftmaxLayer
 from implementations.pytorch.architecture.layers.convolutional import Pytorch2DimensionalConvolutionalLayer as ConvolutionalLayer
 from implementations.pytorch.architecture.layers.flatten import PytorchFlattenLayer as FlattenLayer
 from implementations.pytorch.architecture.layers.linear import PytorchLinearLayer as LinearLayer
-from implementations.pytorch.architecture.layers.poolings.max_pool import Pytorch2DimensionalMaxPoolLayer as MaxPoolLayer
+from implementations.pytorch.architecture.layers.poolings.maxpool import Pytorch2DimensionalMaxPoolLayer as MaxPoolLayer
 from implementations.pytorch.architecture.sections.convolutional import PytorchConvolutionalSection as ConvolutionalSection
 from implementations.pytorch.architecture.sections.linear import PytorchLinearSection as LinearSection
 from implementations.pytorch.toolbox.device import PytorchDevice as Device
 from implementations.pytorch.toolbox.experiment import PytorchExperiment as Experiment
 from implementations.pytorch.toolbox.data.generator import PytorchDatasetGenerator as DatasetGenerator
-from implementations.pytorch.toolbox.losses.cross_entropy import PytorchCrossEntropyLossFunction as CrossEntropyLossFunction
+from implementations.pytorch.toolbox.losses.crossentropy import PytorchCrossEntropyLossFunction as CrossEntropyLossFunction
 from implementations.pytorch.toolbox.optimizers.adam import PytorchAdamOptimizer as AdamOptimizer
 from implementations.pytorch.toolbox.saver import PytorchModelSaver as ModelSaver
 from implementations.pytorch.toolbox.loader import PytorchModelLoader as ModelLoader

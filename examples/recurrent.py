@@ -6,12 +6,12 @@ from implementations.pytorch.architecture.block import PytorchBlock as Block
 from implementations.pytorch.architecture.layers.activations.softmax import PytorchSoftmaxLayer as SoftmaxLayer
 from implementations.pytorch.architecture.layers.linear import PytorchLinearLayer as LinearLayer
 from implementations.pytorch.architecture.layers.recurrent import PytorchSlicingLayer as SlicingLayer
-from implementations.pytorch.architecture.layers.recurrents.rnn import PytorchRnnLayer as RnnLayer
+from implementations.pytorch.architecture.layers.recurrents.rnn import PytorchRNNLayer as RnnLayer
 from implementations.pytorch.architecture.sections.recurrent import PytorchRecurrentSection as RecurrentSection
 from implementations.pytorch.toolbox.device import PytorchDevice as Device
 from implementations.pytorch.toolbox.experiment import PytorchExperiment as Experiment
 from implementations.pytorch.toolbox.data.generator import PytorchDatasetGenerator
-from implementations.pytorch.toolbox.losses.cross_entropy import PytorchCrossEntropyLossFunction as CrossEntropyLossFunction
+from implementations.pytorch.toolbox.losses.crossentropy import PytorchCrossEntropyLossFunction as CrossEntropyLossFunction
 from implementations.pytorch.toolbox.optimizers.sgd import PytorchSGDOptimizer as SGDOptimizer
 from implementations.pytorch.toolbox.saver import PytorchModelSaver as ModelSaver
 from implementations.pytorch.toolbox.loader import PytorchModelLoader as ModelLoader

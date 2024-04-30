@@ -3,9 +3,9 @@ from framework.toolbox.logger import Logger
 from framework.toolbox.stopper import EarlyStopper
 from implementations.pytorch.architecture.architecture import PytorchArchitecture as Architecture
 from implementations.pytorch.architecture.block import PytorchBlock as Block
-from implementations.pytorch.architecture.layers.activations.relu import PytorchReluLayer as ReLULayer
+from implementations.pytorch.architecture.layers.activations.relu import PytorchReLULayer as ReLULayer
 from implementations.pytorch.architecture.layers.linear import PytorchLinearLayer as LinearLayer
-from implementations.pytorch.architecture.layers.regularizations.batch_normalization import Pytorch1DimensionalBatchNormalizationLayer as BatchNormalizationLayer
+from implementations.pytorch.architecture.layers.regularizations.batchnormalization import Pytorch1DimensionalBatchNormalizationLayer as BatchNormalizationLayer
 from implementations.pytorch.architecture.layers.regularizations.dropout import PytorchDropoutLayer as DropoutLayer
 from implementations.pytorch.architecture.sections.linear import PytorchLinearSection as LinearSection
 from implementations.pytorch.toolbox.device import PytorchDevice as Device
