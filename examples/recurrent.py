@@ -6,7 +6,7 @@ from implementations.pytorch.architecture.block import PytorchBlock as Block
 from implementations.pytorch.architecture.layers.activations.softmax import PytorchSoftmaxLayer as SoftmaxLayer
 from implementations.pytorch.architecture.layers.linear import PytorchLinearLayer as LinearLayer
 from implementations.pytorch.architecture.layers.recurrent import PytorchSlicingLayer as SlicingLayer
-from implementations.pytorch.architecture.layers.recurrents.rnn import PytorchRNNLayer as RNNLayer
+from implementations.pytorch.architecture.layers.recurrents.rnn import PytorchRnnLayer as RnnLayer
 from implementations.pytorch.architecture.sections.recurrent import PytorchRecurrentSection as RecurrentSection
 from implementations.pytorch.toolbox.device import PytorchDevice as Device
 from implementations.pytorch.toolbox.experiment import PytorchExperiment as Experiment
@@ -22,7 +22,7 @@ dataset = PytorchDatasetGenerator("Mnist", "", 10, 42).generate(0.7, 0.2, 0.1)
 architecture = (Architecture("RecurrentArchitecture")
                     .attach(RecurrentSection([
                         Block([
-                            RNNLayer(input_size=784, hidden_size=100, num_layer=1, bidirectional=False, dropout=0),
+                            RnnLayer(input_size=784, hidden_size=100, num_layer=1, bidirectional=False, dropout=0),
                             SlicingLayer(output=SlicingLayer.OutputType.EndSequence, start=0, end=101),
                             LinearLayer(in_features=100, out_features=10, dimension=-1, bias=True),
                             SoftmaxLayer(n_dimensions=1)

@@ -3,7 +3,7 @@ from framework.toolbox.logger import Logger
 from framework.toolbox.stopper import EarlyStopper
 from implementations.pytorch.architecture.architecture import PytorchArchitecture as Architecture
 from implementations.pytorch.architecture.block import PytorchBlock as Block
-from implementations.pytorch.architecture.layers.activations.relu import PytorchReLULayer as ReLULayer
+from implementations.pytorch.architecture.layers.activations.relu import PytorchReluLayer as ReLULayer
 from implementations.pytorch.architecture.layers.activations.softmax import PytorchSoftmaxLayer as SoftmaxLayer
 from implementations.pytorch.architecture.layers.convolutional import Pytorch2DimensionalConvolutionalLayer as ConvolutionalLayer
 from implementations.pytorch.architecture.layers.flatten import PytorchFlattenLayer as FlattenLayer
