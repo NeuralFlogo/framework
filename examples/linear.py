@@ -11,8 +11,8 @@ from implementations.pytorch.architecture.sections.linear import PytorchLinearSe
 from implementations.pytorch.toolbox.device import PytorchDevice as Device
 from implementations.pytorch.toolbox.experiment import PytorchExperiment as Experiment
 from implementations.pytorch.toolbox.data.generator import PytorchDatasetGenerator
-from implementations.pytorch.toolbox.losses.mse import PytorchMSELossFunction as MSELossFunction
-from implementations.pytorch.toolbox.optimizers.sgd import PytorchSGDOptimizer as SGDOptimizer
+from implementations.pytorch.toolbox.losses.mse import PytorchMseLossFunction as MSELossFunction
+from implementations.pytorch.toolbox.optimizers.sgd import PytorchSgdOptimizer as SGDOptimizer
 from implementations.pytorch.toolbox.saver import PytorchModelSaver as ModelSaver
 from implementations.pytorch.toolbox.loader import PytorchModelLoader as ModelLoader
 from implementations.pytorch.toolbox.strategies.regression import PytorchRegressionStrategy as RegressionStrategy

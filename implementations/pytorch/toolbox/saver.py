@@ -18,19 +18,19 @@ class PytorchModelSaver(ModelSaver):
 
     def save(self, experiment: str, model: PytorchModel, optimizer: PytorchOptimizer):
         self.__checkpoint_counter += 1
-        self.__init_manifest(experiment)
-        self.__save_weigths(self.__path_of(experiment) + Delimiter + ModelFilename, model)
+        self.__init_experiment_folder(experiment)
+        self.__save_weights(self.__path_of(experiment) + Delimiter + ModelFilename, model)
         if optimizer:
-            self.__save_weigths(self.__path_of(experiment) + Delimiter + OptimizerFilename, optimizer)
+            self.__save_weights(self.__path_of(experiment) + Delimiter + OptimizerFilename, optimizer)
 
     def latest_checkpoint(self, experiment: str):
         return self.__path_of(experiment) + Delimiter + ModelFilename
 
-    def __init_manifest(self, experiment):
+    def __init_experiment_folder(self, experiment):
         if not self.__is_dir(self.__experiment_path(experiment)):
             self.__create_experiment_folder(experiment)
 
-    def __save_weigths(self, path: str, component: PytorchModel | PytorchOptimizer):
+    def __save_weights(self, path: str, component: PytorchModel | PytorchOptimizer):
         if not self.__is_dir(os.path.dirname(path)):
             self.__mkdir(os.path.dirname(path))
         torch.save(component.weights(), path)

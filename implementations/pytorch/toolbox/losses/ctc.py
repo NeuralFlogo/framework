@@ -3,8 +3,8 @@ from torch.nn import CTCLoss
 from implementations.pytorch.toolbox.loss import PytorchLossFunction
 
 
-class PytorchCTCLossFunction(PytorchLossFunction):
+class PytorchCtcLossFunction(PytorchLossFunction):
     def __init__(self):
-        super(PytorchCTCLossFunction, self).__init__()
+        super(PytorchCtcLossFunction, self).__init__()
         self.loss = CTCLoss()
         

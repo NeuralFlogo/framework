@@ -12,7 +12,7 @@ from implementations.pytorch.toolbox.device import PytorchDevice as Device
 from implementations.pytorch.toolbox.experiment import PytorchExperiment as Experiment
 from implementations.pytorch.toolbox.data.generator import PytorchDatasetGenerator
 from implementations.pytorch.toolbox.losses.cross_entropy import PytorchCrossEntropyLossFunction as CrossEntropyLossFunction
-from implementations.pytorch.toolbox.optimizers.sgd import PytorchSGDOptimizer as SGDOptimizer
+from implementations.pytorch.toolbox.optimizers.sgd import PytorchSgdOptimizer as SGDOptimizer
 from implementations.pytorch.toolbox.saver import PytorchModelSaver as ModelSaver
 from implementations.pytorch.toolbox.loader import PytorchModelLoader as ModelLoader
 from implementations.pytorch.toolbox.strategies.classification import PytorchClassificationStrategy as ClassificationStrategy
