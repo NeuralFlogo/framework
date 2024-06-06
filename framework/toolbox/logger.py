@@ -1,7 +1,8 @@
 import os
+from pathlib import Path
 
 Delimiter = "\t"
-Header = Delimiter.join(["ARCHITECTURE", "LABORATORY", "EXPERIMENT", "ERAS", "EPOCH", "BATCH", "MODE", "MEASUREMENT"])
+Header = Delimiter.join(["LABORATORY", "EXPERIMENT", "ERAS", "EPOCH", "BATCH", "MODE", "MEASUREMENT"])
 
 
 class Logger:
@@ -31,15 +32,15 @@ class Logger:
     def __init_file(self):
         if not self.__file_exist():
             self.__mkdirs()
-        if not self.__is_file_empty():
+        elif not self.__is_file_empty():
             return
         self.__log(Header)
 
     def __mkdirs(self):
-        os.makedirs(self.path)
+        Path(self.path).parent.mkdir(parents=True, exist_ok=True)
 
     def __log(self, line: str):
-        with open(self.path, 'a') as file:
+        with open(self.path, 'a+') as file:
             file.write(line + "\n")
 
     def __file_exist(self):

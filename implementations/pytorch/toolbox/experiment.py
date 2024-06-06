@@ -25,7 +25,7 @@ class PytorchExperiment(Experiment):
         for epoch in range(1, epochs + 1):
             training_loss = self.__train(epoch, training_set, logger, device)
             validation_loss = self.__validate(validation_set, device)
-            logger.log_epoch(self.architecture.name, self.name, epoch, training_loss, validation_loss)
+            logger.log_epoch(self.name, epoch, training_loss, validation_loss)
             if self.__is_checkpoint(validation_loss):
                 self.best_loss = validation_loss
                 self.saver.save(self.name, PytorchModel(architecture=self.architecture, device=device), self.optimizer)
@@ -41,7 +41,7 @@ class PytorchExperiment(Experiment):
             running_loss += self.loss_function.training_compute(outputs, batch.targets().to(device.get()))
             self.optimizer.move()
             if i % SavePoint == 0:
-                logger.log_batch(self.architecture.name, self.name, epoch, i, self.__get_batch_loss(running_loss, last_loss))
+                logger.log_batch(self.name, epoch, i, self.__get_batch_loss(running_loss, last_loss))
                 last_loss = running_loss
         self.architecture.train(False)
         return running_loss / len(dataset.batches())
