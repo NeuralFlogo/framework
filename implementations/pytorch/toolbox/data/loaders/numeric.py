@@ -10,7 +10,7 @@ Delimiter = "delimiter"
 Extension = ".csv"
 TargetColumn = "prediction"
 TargetColumnParameter = "target"
-TypeColumn = "list"
+TypeColumn = "column"
 
 
 class PytorchNumericDatasetLoader(DatasetLoader):
@@ -42,9 +42,9 @@ class PytorchNumericDatasetLoader(DatasetLoader):
     def __are_list(self):
         return self.metadata.get(TypeColumn, "numeric") == "list"
 
-    def __is_list_string(self, column):
+    def __is_list_string(self, value):
         try:
-            result = eval(column)
+            result = eval(value)
             return isinstance(result, list)
         except:
             return False

@@ -4,16 +4,11 @@ from framework.architecture.layer import Layer
 
 
 class RecurrentLayer(Layer):
-    pass
-
-
-class SlicingLayer(Layer):
-    def __init__(self, output: 'OutputType', start: int = 0, end: int = None):
-        self.output = output
-        self.start = start
-        self.end = end
+    def __init__(self, output_type: 'OutputType'):
+        super().__init__()
+        self.output = output_type
 
     class OutputType(Enum):
         EndSequence = 0
-        Hidden = 1
-        Cell = 2
+        HiddenStates = 1
+        CellStates = 2
